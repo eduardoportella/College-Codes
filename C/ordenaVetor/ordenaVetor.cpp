@@ -1,0 +1,32 @@
+#include <stdlib.h>
+#include <stdio.h>
+#define N 10
+
+//prototipo
+void ordena(int[], int);
+
+int main() {
+    int v[N], i;
+    for(i=0; i<N; i++){
+        printf("digite o elemento %d: \n", i+1);
+        scanf("%d", &v[i]);
+    }
+    ordena(v, N);
+    for (i=0; i<N; i++)
+        printf("%d ", v[i]);
+
+    return 0;
+}
+
+void ordena(int x[], int Tam){
+    int i, j, aux;
+    for (i=0; i<Tam-1; i++){
+        for (j=i+1; j<Tam; j++){
+            if (x[i] < x[j]){
+                aux = x[i];
+                x[i] = x[j];
+                x[j] = aux;
+            }
+        }
+    }
+}
