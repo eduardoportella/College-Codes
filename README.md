@@ -1,3 +1,3 @@
 # College-Codes
 
-Get out. this is a private repository
+Get out. This is a private repository
