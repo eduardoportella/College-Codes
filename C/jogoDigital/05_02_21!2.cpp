@@ -51,6 +51,19 @@ void mostra(float **x, int N, int M){
     }
 }
 
+//Função para liberação da memória alocada
+void liberaMat(float **x, int N){
+    int i;
+    for ( i = 0; i < N; i++)
+    {
+        if (x[i] != NULL){
+            free(x[i]);
+        }
+    }
+    free(x);
+    printf("Memoria liberada com sucesso \n");
+}
+
 
 //Função principal
 int main(){
@@ -61,6 +74,7 @@ int main(){
     MA = alocaMat(L, C);
     zeraMat(MA, L, C);
     mostra(MA, L, C);
+    liberaMat(MA, L);
 
     system("pause");
     return 0;

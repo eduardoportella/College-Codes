@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
-//Alocação dinâmica de memória
-//Exemplo 1 - Alocando um vetor durante a execução do programa
-//Este programa utiliza as funções malloc() e free()
+//Alocaï¿½ï¿½o dinï¿½mica de memï¿½ria
+//Exemplo 1 - Alocando um vetor durante a execuï¿½ï¿½o do programa
+//Este programa utiliza as funï¿½ï¿½es malloc() e free()
 
-//Função para alocação do vetor
+//Funï¿½ï¿½o para alocaï¿½ï¿½o do vetor
 float *alocavet(int N){
     float *v;
     v = (float *) malloc(N*sizeof(float));
@@ -35,11 +35,11 @@ void mostra(float *v, int N){
     }
 }
 
-//libera a memória alocada (deleta o vetor)
+//libera a memï¿½ria alocada (deleta o vetor)
 void liberavet(float *v){
     if (v != NULL){
         free(v); //Sempre verificar antes de liberar
-        printf("Memória liberada \n");
+        printf("Memoria liberada \n");
     }
 }
 
