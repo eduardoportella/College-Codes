@@ -7,7 +7,7 @@
 //Função para alocação do vetor
 float *alocavet(int N){
     float *v;
-    v = (float *) malloc(N*sizeof(float));
+    v = (float *) malloc(N*sizeof(float)); 
     if (v == NULL){ //Testando pra ver se deu certo
         printf("Erro ao alocar memoria\n");
         exit(-1); //Sai do programa
