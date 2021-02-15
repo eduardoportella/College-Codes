@@ -95,7 +95,6 @@ int main(){
         system("cls");
         main();
     } else {
-        system("pause");
         return 0;
     }
 }
