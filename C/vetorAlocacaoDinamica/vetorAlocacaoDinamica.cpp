@@ -43,20 +43,24 @@ int first_fit(int *x, int tam, int valor){
     bool espacoVago = false;
     for (i = 0; i < tam; i++) //analisar vetor
     {
+        if (x[i] == 0 && valor == 1){ // essa é uma excecao, pois se o valor for igual a 1 ocorre um bug onde j = 0+1-1 e dps entra em um looping negativo
+            espacoVago = true;
+            return i+1;
+        }
         if (x[i] == 0) //verificar se o espaco ta vago
         {
-            for (j = i+valor; j > i; j--) //verificar se os espacos a seguir estao vagos
+            for (j = i+valor-1; j > i; j--) //verificar se os espacos a seguir estao vagos
             {
                 if (x[j] == 0 && x[j]<tam){
                     espacoVago = true;
                 } else {
                     espacoVago = false;
+                    break;
                 }
             }
             if (espacoVago == true)
             {
                 return i+1;
-                break;
             }
         }
     }
@@ -80,7 +84,6 @@ int main(){
         printf("ERRO. Nao eh possivel alocar %d pois o vetor eh de tamanho %d", T, tam);
         exit(-2);
     }
-    
     vet = alocacaoDoVetor(tam);
     iniciaVet(vet, tam);
     mostra(vet, tam);
@@ -91,7 +94,8 @@ int main(){
     if (resp == 's' || resp == 'S'){
         system("cls");
         main();
+    } else {
+        system("pause");
+        return 0;
     }
-    system("pause");
-    return 0;
 }
