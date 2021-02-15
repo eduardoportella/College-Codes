@@ -67,8 +67,37 @@ int first_fit(int *x, int tam, int valor){
     return -1;
 }
 
-int best_fit(int *x, int tam, int valor){ //vetor para verificar se o espaco esta vazio
-	
+int best_fit(int *x, int tam, int valor){
+	int i, j, k, l;
+    bool espacoVago = false;
+    for (i = 0; i < tam; i++) //analisar vetor
+    {
+        if (x[i] == 0 && valor == 1){ // essa é uma excecao, pois se o valor for igual a 1 ocorre um bug onde j = 0+1-1 e dps entra em um looping negativo
+            espacoVago = true;
+            return i+1;
+        }
+        if (x[i] == 0) //verificar se o espaco ta vago
+        {
+            for (j = i+valor-1; j > i; j--) //verificar se os espacos a seguir estao vagos
+            {
+                if (x[j] == 0 && x[j]<tam){
+                    espacoVago = true;
+                } else {
+                    espacoVago = false;
+                    break;
+                }
+            }
+            for (k=1; k<tam; k++){
+            	for (l=1; l<tam; l++){
+            		if (espacoVago == true && x[i-k]==1 && x[i+valor+j] == 1)
+            		{
+                		return i+1;
+            		}
+            		}//for l
+        		}//for k
+        }
+    }
+    return -1;
 }
 
 int main(){
@@ -88,6 +117,7 @@ int main(){
     iniciaVet(vet, tam);
     mostra(vet, tam);
     printf("\nA casa sera ocupada em: %d", first_fit(vet, tam, T));
+    printf("\nA casa ideal seria em: %d", best_fit(vet, tam, T));
     liberavet(vet);
     printf("Deseja repetir? [S/N] \n");
     scanf("%s", &resp);
