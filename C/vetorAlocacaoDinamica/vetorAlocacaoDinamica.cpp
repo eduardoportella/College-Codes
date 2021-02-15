@@ -67,13 +67,12 @@ int first_fit(int *x, int tam, int valor){
     return -1;
 }
 
-void best_fit(int *x){
-
+int best_fit(int *x, int tam, int valor){
+    
 }
 
 int main(){
     int *vet, tam, T;
-    bool repetir = true;
     char resp;
     printf("Digite o tamanho do vetor: ");
     scanf("%d", &tam);
@@ -87,7 +86,12 @@ int main(){
     vet = alocacaoDoVetor(tam);
     iniciaVet(vet, tam);
     mostra(vet, tam);
-    printf("\nA casa sera ocupada em: %d", first_fit(vet, tam, T));
+    if (first_fit(vet, tam, T) == best_fit(vet, tam, T)){
+        printf("\nA casa sera ocupada em: %d, e eh o melhor lugar para ela ficar", first_fit(vet, tam, T));
+    }else {
+        printf("\nA casa sera ocupada em: %d", first_fit(vet, tam, T));
+        printf("\nA casa ideal seria em: %d", best_fit(vet, tam, T));
+    }
     liberavet(vet);
     printf("Deseja repetir? [S/N] \n");
     scanf("%s", &resp);
@@ -95,7 +99,6 @@ int main(){
         system("cls");
         main();
     } else {
-        system("pause");
         return 0;
     }
 }
