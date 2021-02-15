@@ -67,8 +67,8 @@ int first_fit(int *x, int tam, int valor){
     return -1;
 }
 
-void best_fit(int *x){
-
+int best_fit(int *x, int tam, int valor){ //vetor para verificar se o espaco esta vazio
+	
 }
 
 int main(){
