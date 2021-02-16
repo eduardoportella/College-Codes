@@ -70,15 +70,15 @@ int first_fit(int *x, int tam, int valor){
 int best_fit(int *x, int tam, int valor){
 	int i, j, k, l;
     bool espacoVago = false;
-    for (i = 0; i < tam; i++) //analisar vetor
+    for (i = 0; i < tam; i++)
     {
-        if (x[i] == 0 && valor == 1){ // essa é uma excecao, pois se o valor for igual a 1 ocorre um bug onde j = 0+1-1 e dps entra em um looping negativo
+        if (x[i] == 0 && valor == 1){ 
             espacoVago = true;
             return i+1;
         }
-        if (x[i] == 0) //verificar se o espaco ta vago
+        if (x[i] == 0)
         {
-            for (j = i+valor-1; j > i; j--) //verificar se os espacos a seguir estao vagos
+            for (j = i+valor-1; j > i; j--)
             {
                 if (x[j] == 0 && x[j]<tam){
                     espacoVago = true;
@@ -88,13 +88,11 @@ int best_fit(int *x, int tam, int valor){
                 }
             }
             for (k=1; k<tam; k++){
-            	for (l=1; l<tam; l++){
-            		if (espacoVago == true && x[i-k]==1 && x[i+valor+j] == 1)
-            		{
-                		return i+1;
-            		}
-            		}//for l
-        		}//for k
+            	if (espacoVago == true && x[i-k]==1 && x[i+valor+j] == 1)
+            	{
+                	return i+1;
+            	}
+        	}
         }
     }
     return -1;
@@ -116,8 +114,8 @@ int main(){
     vet = alocacaoDoVetor(tam);
     iniciaVet(vet, tam);
     mostra(vet, tam);
-    printf("\nA casa sera ocupada em: %d", first_fit(vet, tam, T));
-    printf("\nA casa ideal seria em: %d", best_fit(vet, tam, T));
+    printf("\nFirst fit: %d", first_fit(vet, tam, T));
+    printf("\nBest fit: %d", best_fit(vet, tam, T));
     liberavet(vet);
     printf("Deseja repetir? [S/N] \n");
     scanf("%s", &resp);
