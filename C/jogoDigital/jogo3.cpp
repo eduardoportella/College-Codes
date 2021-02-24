@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define M 8  // pares de cartas
-#define N 4  // tabuleiro 4x4 que armazena 16 cartas
-int pontos=0, sequencia=0; 
+// #define M 8  // pares de cartas
+// #define N 4  // tabuleiro 4x4 que armazena 16 cartas
+int pontos=0, sequencia=0, M, N; 
 
-char Tab[N][N];
+char Tab[N][N]; //COLOCAR NO MAIN E COLOCAR PARAMETROS NAS FUNCOES!
 char TabCensurado[N][N];
 char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
@@ -159,7 +159,20 @@ void tirandoCensura(){
 }
 
 int main() {
-	int jogarNovamente;
+	int jogarNovamente, dificuldade;
+	printf("Escolha a dificuldade:\n(1)Facil (2)Dificil");
+	scanf("%d", &dificuldade);
+	if (dificuldade == 1){
+		N = 4;
+		M = 8;
+	} else if (dificuldade == 2){
+		N = 6;
+		M = 18;
+	} else {
+		printf("ERRO");
+		sleep(1);
+		main();
+	}
 	inicia_tab();
 	mostra_tab();
     temporizador(5);
