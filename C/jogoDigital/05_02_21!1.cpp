@@ -3,6 +3,7 @@
 //Alocação dinâmica de memória
 //Exemplo 1 - Alocando um vetor durante a execução do programa
 //Este programa utiliza as funções malloc() e free()
+//teste
 
 //Função para alocação do vetor
 float *alocavet(int N){
