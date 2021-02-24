@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-char **alocaMat(int N, int M){
+char **alocaMat(int N, int M){ //Aloca a matriz
     char **Mat;
     int i;
     Mat = (char **) malloc(N*sizeof(char *));
@@ -22,19 +22,19 @@ char **alocaMat(int N, int M){
     return Mat;
 }
 
-void zeraMat(char **x, int N, int M){
+void zeraMat(char **x, int N, int M){ //Inicializa a matriz com 0
     int i, j;
     for ( i = 0; i < N; i++)
     {
-        for ( j = 0; j < M; j++)
+        for ( j = 0; j < N; j++)
         {
-            x[i][j] = 'OI';
+            x[i][j] = 'a';
         }
     }
     printf("Matriz inicializada com sucesso \n");
 }
 
-void mostra(char **x, int N, int M){
+void mostra(char **x, int N, int M){ //Mostra a matriz
     int i, j;
     for ( i = 0; i < N; i++)
     {
@@ -46,7 +46,7 @@ void mostra(char **x, int N, int M){
     }
 }
 
-void liberaMat(char **x, int N){
+void liberaMat(char **x, int N){ //Libera a memoria
     int i;
     for ( i = 0; i < N; i++)
     {
