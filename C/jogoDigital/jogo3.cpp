@@ -4,7 +4,9 @@
 #include <unistd.h>
 int pontos=0, sequencia=0;
 
-void inicia_tab(int N, int M, char Tab[][], char TabCensurado[][], char cartas[]) {
+// xove esse troco
+
+void inicia_tab(int N, int M, char Tab[N][N], char TabCensurado[N][N], char cartas[M]) {
 	int x, cont, i, j;
 	
 	for(i=0; i<N; i++)
@@ -34,7 +36,7 @@ void limpar(){
     system("cls");
 }
 
-void mostra_tab(int N, char Tab[][]) {
+void mostra_tab(int N, char Tab[N][N]) {
 	int i, j;
 	printf(" ----  Tabuleiro do Jogo  -----\n\n");
 	for(i=0; i<N; i++) {
@@ -44,7 +46,7 @@ void mostra_tab(int N, char Tab[][]) {
     }
 }
 
-void mostra_tab2(int N, char Tab[][]) {
+void mostra_tab2(int N, char Tab[N][N]) {
 	int i, j;
 	for(i=0; i<N; i++) {
 	  for(j=0; j<N; j++) 
@@ -54,7 +56,7 @@ void mostra_tab2(int N, char Tab[][]) {
 	printf("\n");
 }
 
-void mostra_tabCensurado(int N, char TabCensurado[][]){
+void mostra_tabCensurado(int N, char TabCensurado[N][N]){
 	int i, j;
 	printf("PONTOS: %d \n\n", pontos);
 	for(i=0; i<N; i++) {
@@ -77,7 +79,7 @@ void temporizador(int segundos){
     }
 }
 
-void tirandoCensura(int N, char Tab[][], char TabCensurado[][]){
+void tirandoCensura(int N, char Tab[N][N], char TabCensurado[N][N]){
 	system("cls");
 	mostra_tabCensurado(Tab[N][N], TabCensurado[N][N]);
 	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
@@ -169,8 +171,6 @@ int main() {
 		sleep(1);
 		main();
 	}
-	char Tab[N][N];
-	char TabCensurado[N][N];
 	inicia_tab(N, M, Tab[N][N], TabCensurado[N][N], cartas[M]);
 	mostra_tab(N, Tab[N][N]);
     temporizador(5);
