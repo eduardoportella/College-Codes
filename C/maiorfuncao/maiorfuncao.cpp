@@ -11,7 +11,7 @@ int maior(int x, int y){
     }
 }
 
-int main() {
+int main() { 
     int a, b;
     printf("Digite o valor de A: \n");
     scanf("%d", &a);

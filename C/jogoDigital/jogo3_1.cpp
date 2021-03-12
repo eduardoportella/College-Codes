@@ -2,9 +2,16 @@
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
-int pontos=0, sequencia=0;
 
-void inicia_tab(int N, int M, char Tab[][], char TabCensurado[][], char cartas[]) {
+#define M 8  // pares de cartas
+#define N 4  // tabuleiro 4x4 que armazena 16 cartas
+int pontos=0, sequencia=0; 
+
+char Tab[N][N]; //COLOCAR NO MAIN E COLOCAR PARAMETROS NAS FUNCOES!
+char TabCensurado[N][N];
+char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+
+void inicia_tab() {
 	int x, cont, i, j;
 	
 	for(i=0; i<N; i++)
@@ -34,7 +41,7 @@ void limpar(){
     system("cls");
 }
 
-void mostra_tab(int N, char Tab[][]) {
+void mostra_tab() {
 	int i, j;
 	printf(" ----  Tabuleiro do Jogo  -----\n\n");
 	for(i=0; i<N; i++) {
@@ -44,7 +51,7 @@ void mostra_tab(int N, char Tab[][]) {
     }
 }
 
-void mostra_tab2(int N, char Tab[][]) {
+void mostra_tab2() {
 	int i, j;
 	for(i=0; i<N; i++) {
 	  for(j=0; j<N; j++) 
@@ -54,7 +61,7 @@ void mostra_tab2(int N, char Tab[][]) {
 	printf("\n");
 }
 
-void mostra_tabCensurado(int N, char TabCensurado[][]){
+void mostra_tabCensurado(){
 	int i, j;
 	printf("PONTOS: %d \n\n", pontos);
 	for(i=0; i<N; i++) {
@@ -70,24 +77,24 @@ void temporizador(int segundos){
     limpar();
     for ( i = segundos; i > 0; i--)
     {
-		mostra_tab2(Tab[N][N]);
+		mostra_tab2();
 		printf("%d Segundos", i);
         sleep(1);
 		system("cls");
     }
 }
 
-void tirandoCensura(int N, char Tab[][], char TabCensurado[][]){
+void tirandoCensura(){
 	system("cls");
-	mostra_tabCensurado(Tab[N][N], TabCensurado[N][N]);
-	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
+	mostra_tabCensurado();
+	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2, contadorDeX=0;
 	char carta1, carta2;
 	printf("Digite LinhaxColuna: ");
 	scanf("%dx%d", &linhaAux1, &colunaAux1);
 	if (linhaAux1 < 1 || linhaAux1 > N || colunaAux1 < 1 || colunaAux1 > N){
 		printf("ERRO");
 		sleep(1);
-		tirandoCensura(Tab[N][N], TabCensurado[N][N]);
+		tirandoCensura();
 	}
 	linhaAux1 = linhaAux1-1;
 	colunaAux1 = colunaAux1-1;
@@ -97,16 +104,16 @@ void tirandoCensura(int N, char Tab[][], char TabCensurado[][]){
 	} else {
 		printf("ERRO, %dx%d ja foi descoberto \n", linhaAux1+1, colunaAux1+1);
 		sleep(1);
-		tirandoCensura(Tab[N][N], TabCensurado[N][N]);
+		tirandoCensura();
 	}
 	system("cls");
-	mostra_tabCensurado(TabCensurado[N][N]);
+	mostra_tabCensurado();
 	printf("Digite LinhaxColuna: ");
 	scanf("%dx%d", &linhaAux2, &colunaAux2);
 	if (linhaAux2 < 1 || linhaAux2 > N || colunaAux2 < 1 || colunaAux2 > N){
 		printf("ERRO");
 		sleep(1);
-		tirandoCensura(Tab[N][N], TabCensurado[N][N]);
+		tirandoCensura();
 	}
 	linhaAux2 = linhaAux2-1;
 	colunaAux2 = colunaAux2-1;
@@ -116,12 +123,12 @@ void tirandoCensura(int N, char Tab[][], char TabCensurado[][]){
 	} else {
 		printf("ERRO, %dx%d ja foi descoberto \n", linhaAux2+1, colunaAux2+1);
 		sleep(1);
-		tirandoCensura(Tab[N][N],TabCensurado[N][N]);
+		tirandoCensura();
 	}
 	
 	system("cls");
 	if (carta1 == carta2){
-		mostra_tabCensurado(TabCensurado[N][N]);
+		mostra_tabCensurado();
 		printf("Acertou!");
 		sleep(2);
 		TabCensurado[linhaAux1][colunaAux1] = carta1;
@@ -133,49 +140,45 @@ void tirandoCensura(int N, char Tab[][], char TabCensurado[][]){
 		}
 		sequencia++;
 	} else {
-		mostra_tabCensurado(TabCensurado[N][N]);
+		mostra_tabCensurado();
 		printf("Errou!");
 		sleep(2);
 		TabCensurado[linhaAux1][colunaAux1] = 'X';
 		TabCensurado[linhaAux2][colunaAux2] = 'X';
 		sequencia = 0;
 	}
-	mostra_tabCensurado(TabCensurado[N][N]);
+	mostra_tabCensurado();
 	for (i = 0; i < N; i++)
 	{
 		for ( j = 0; j < N; j++)
 		{
 			if (TabCensurado[i][j] == 'X')
-			tirandoCensura(Tab[N][N], TabCensurado[N][N]);
+			tirandoCensura();
 		}
+	}
+	for (i = 0; i < N; i++) //tem que contar o x pq as vezes buga
+	{
+		for ( j = 0; j < N; j++)
+		{
+			if (TabCensurado[i][j] != 'X'){
+				contadorDeX++;
+			}
+		}
+	} if (contadorDeX == 0){
+		limpar();
+		mostra_tabCensurado();
+		return;
 	}
 }
 
 int main() {
-	int jogarNovamente, dificuldade, M, N;
-	char cartas[M], Tab[N][N], TabCensurado[N][N];
-	printf("Escolha a dificuldade:\n(1)Facil (2)Dificil");
-	scanf("%d", &dificuldade);
-	if (dificuldade == 1){
-		N = 4;
-		M = 8;
-		char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-	} else if (dificuldade == 2){
-		N = 6;
-		M = 18;
-		char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
-	} else {
-		printf("ERRO");
-		sleep(1);
-		main();
-	}
-	char Tab[N][N];
-	char TabCensurado[N][N];
-	inicia_tab(N, M, Tab[N][N], TabCensurado[N][N], cartas[M]);
-	mostra_tab(N, Tab[N][N]);
+	int jogarNovamente;
+	inicia_tab();
+	mostra_tab();
     temporizador(5);
-	tirandoCensura(N, Tab[N][N], TabCensurado[N][N]);
-	printf("Parabens, voce fez %d", pontos);
+	tirandoCensura();
+	limpar();
+	printf("Parabens, voce fez %d pontos\n", pontos);
 	sleep(1);
 	printf("Digite 1 para jogar novamente ou digite qualquer outra coisa para sair");
 	scanf("%d", &jogarNovamente);
@@ -186,4 +189,3 @@ int main() {
 		return 0;
 	}	
 }
-
