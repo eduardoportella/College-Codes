@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define M 8  // pares de cartas
-#define N 4  // tabuleiro 4x4 que armazena 16 cartas
+#define M 18
+#define N 6
 int pontos=0, sequencia=0; 
 
-char Tab[N][N]; //COLOCAR NO MAIN E COLOCAR PARAMETROS NAS FUNCOES!
+char Tab[N][N];
 char TabCensurado[N][N];
-char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+char cartas[M] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
 
 void inicia_tab() {
 	int x, cont, i, j;
@@ -24,8 +24,8 @@ void inicia_tab() {
     x=0;
     cont=0;
 	while (x<M){  // para cada elemento em V
-		i=rand() % 4;
-		j=rand() % 4;
+		i=rand() % N;
+		j=rand() % N;
 		if (Tab[i][j] == 'Z') {
 		   Tab[i][j] = cartas[x];
 		   cont++;
