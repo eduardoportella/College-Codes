@@ -1,27 +1,29 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int mostra(char tab[n][n], int N){
-    int i, j;
-    printf(" ----  Tabuleiro do Jogo  -----\n\n");
-	for(i=0; i<N; i++) {
-	  for(j=0; j<N; j++) 
-	      printf ("%c  ", tab[i][j]);
-	  printf("\n");
-    }
+void verde(){
+    printf("\033[32m pocas ideia");
+}
+
+void vermelho(){
+    system("color 4F");
 }
 
 int main(){
-    char tab[4][4];
-    int i, j, N=4;
-    for ( i = 0; i < 4; i++)
-    {
-        for ( j = 0; j < 4; j++)
-        {
-            tab[i][j] = 'AA';
-        }
-    }
+    verde();
+    sleep(1);
+    vermelho();
+    sleep(1);
+    verde();
+    sleep(1);
+    vermelho();
+    sleep(1);
+    verde();
+    sleep(1);
+    vermelho();
+    sleep(1);
 
-    mostra(tab[N][N], N);
-
+    system("pause");
+    return 0;
 }
