@@ -144,6 +144,7 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 		sleep(1);
 		corPreto();
 		tirandoCensura(Tab, TabCensurado, N);
+		return;
 	}
 	linhaAux1 = linhaAux1-1;
 	colunaAux1 = colunaAux1-1;
@@ -154,7 +155,7 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 		printf("ERRO, %dx%d ja foi descoberto \n", linhaAux1+1, colunaAux1+1);
 		sleep(1);
 		tirandoCensura(Tab, TabCensurado, N);
-		return; //testando
+		return;
 	}
 	system("cls");
 	mostra_tabCensurado(TabCensurado, N);
