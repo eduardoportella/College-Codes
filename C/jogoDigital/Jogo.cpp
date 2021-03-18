@@ -77,10 +77,6 @@ void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
 		}	
 }
 
-void limpar(){
-    system("cls");
-}
-
 void mostra_tab(char **Tab, int N) {
 	int i, j;
 	for(i=0; i<N; i++) {
@@ -113,7 +109,7 @@ void mostra_tabCensurado(char **TabCensurado, int N){
 
 void temporizador(char **Tab, int N, int segundos){
     int i;
-    limpar();
+    system("cls");
     for ( i = segundos; i > 0; i--)
     {
 		mostra_tab2(Tab, N);
@@ -253,9 +249,9 @@ int main() {
 		temporizador(tab, N, 5);
 		tirandoCensura(tab, tabCensurado, N);
 		system("cls");
-		freeMat(tab, N);
-		freeMat(tab, N);
 		mostra_tabCensurado(tabCensurado, N);
+		freeMat(tab, N);
+		freeMat(tab, N);
 		freeMat(tabCensurado, N);
 		printf("Parabens, voce fez %d Pontos \n", pontos);
 		sleep(1);
