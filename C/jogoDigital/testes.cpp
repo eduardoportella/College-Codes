@@ -1,29 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-
-void verde(){
-    printf("\033[32m pocas ideia");
-}
-
-void vermelho(){
-    system("color 4F");
-}
+#include <ctype.h>
 
 int main(){
-    verde();
-    sleep(1);
-    vermelho();
-    sleep(1);
-    verde();
-    sleep(1);
-    vermelho();
-    sleep(1);
-    verde();
-    sleep(1);
-    vermelho();
-    sleep(1);
-
+    int n;
+    char a='.';
+    printf("%d\n", isdigit(n));
+    printf("%d", isdigit(a));
     system("pause");
     return 0;
 }

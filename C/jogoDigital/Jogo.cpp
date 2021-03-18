@@ -2,141 +2,117 @@
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
-#define Nf 4
 #define Mf 8
-#define Nd 6
 #define Md 18
-int pontos=0, sequencia=0, dificuldade;
 char cartasF[Mf] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 char cartasD[Md] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
-char TabF[Nf][Nf];
-char TabD[Nd][Nd];
-char TabCensuradoF[Nf][Nf];
-char TabCensuradoD[Nd][Nd];
+int pontos=0, sequencia=0, dificuldade;
 
+char **alocaMat(int N){
+    char **tab;
+	int i;
+    tab = (char **) malloc(N*sizeof(char *));
+    if (tab == NULL){
+        printf("Erro ao alocar memoria \n");
+        exit(-1);
+    }
+    for ( i = 0; i < N; i++)
+    {
+        tab[i] = (char *) malloc(N*sizeof(char));
+        if (tab[i] == NULL){
+            printf("Erro ao alocar memoria\n");
+            exit(-1);
+        }
+    }
+    return tab;
+	
+}
 
-void inicia_tab() {
+char **alocaMatCensura(int N){
+    char **TabCensurado;
+	int i;
+    TabCensurado = (char **) malloc(N*sizeof(char *));
+    if (TabCensurado == NULL){
+        printf("Erro ao alocar memoria \n");
+        exit(-1);
+    }
+    for ( i = 0; i < N; i++)
+    {
+        TabCensurado[i] = (char *) malloc(N*sizeof(char));
+        if (TabCensurado[i] == NULL){
+            printf("Erro ao alocar memoria\n");
+            exit(-1);
+        }
+    }
+    return TabCensurado;
+}
+
+void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
 	int x, cont, i, j;
 	srand(time(NULL));
-	if (dificuldade == 1){
-		for(i=0; i<Nf; i++)
-	  	for(j=0; j<Nf; j++){
-			TabF[i][j]= 'Z';
-			TabCensuradoF[i][j] = 'X';
+	for(i=0; i<N; i++)
+	  	for(j=0; j<N; j++){
+			tab[i][j]= 'Z';
+			TabCensurado[i][j] = 'X';
 	  	}
 	
 		
     	x=0;
     	cont=0;
-		while (x<Mf){  // para cada elemento em V
-			i=rand() % Nf;
-			j=rand() % Nf;
-			if (TabF[i][j] == 'Z') {
-		   	TabF[i][j] = cartasF[x];
+		while (x<M){  // para cada elemento em V
+			i=rand() % N;
+			j=rand() % N;
+			if (tab[i][j] == 'Z') {
+				if (dificuldade == 1){
+		   		tab[i][j] = cartasF[x];
+			} else {
+				tab[i][j] = cartasD[x];
+			}
 		   	cont++;
 	    	}
 			if (cont > 1) {
 				x++;
 		    	cont = 0;
 			}
-		}
-// #######################################
-	} if (dificuldade ==2){
-		for(i=0; i<Nd; i++)
-	  	for(j=0; j<Nd; j++){
-			TabD[i][j]= 'Z';
-			TabCensuradoD[i][j] = 'X';
-	  	}
-    	x=0;
-    	cont=0;
-
-		while (x<Md){  // para cada elemento em V
-			i=rand() % Nd;
-			j=rand() % Nd;
-			if (TabD[i][j] == 'Z') {
-		   	TabD[i][j] = cartasD[x];
-		   	cont++;
-	    	}
-			if (cont > 1) {
-				x++;
-		    	cont = 0;
-			}
-		}
-	}	
+		}	
 }
 
-void limpar(){
-    system("cls");
-}
-
-void mostra_tab() {
+void mostra_tab(char **Tab, int N) {
 	int i, j;
-	printf(" ----  Tabuleiro do Jogo  -----\n\n");
-	if (dificuldade == 1){
-		for(i=0; i<Nf; i++) {
-	  	for(j=0; j<Nf; j++) 
-	      	printf("%c  ", TabF[i][j]);
+	for(i=0; i<N; i++) {
+	  	for(j=0; j<N; j++) 
+	      	printf("%c  ", Tab[i][j]);
 	  	printf("\n");
-    	}
-		// #######################################
-	}
-	if (dificuldade ==2){
-		for(i=0; i<Nd; i++) {
-	  	for(j=0; j<Nd; j++) 
-	      	printf("%c  ", TabD[i][j]);
-	  	printf("\n");
-		}
-	}
+    }
 }
 
-void mostra_tab2() {
+void mostra_tab2(char **Tab, int N) {
 	int i, j;
-	if (dificuldade == 1){
-		for(i=0; i<Nf; i++) {
-	  	for(j=0; j<Nf; j++) 
-	      	printf ("%c  ", TabF[i][j]);
+	for(i=0; i<N; i++) {
+	  	for(j=0; j<N; j++) 
+	      	printf ("%c  ", Tab[i][j]);
 	  	printf("\n");
     	}
-		printf("\n");
-		// ########################################
-	} if (dificuldade == 2){
-		for(i=0; i<Nd; i++) {
-	  	for(j=0; j<Nd; j++) 
-	      	printf ("%c  ", TabD[i][j]);
-	  	printf("\n");
-    	}
-		printf("\n");
-	}
+	printf("\n");
 }
 
-void mostra_tabCensurado(){
+void mostra_tabCensurado(char **TabCensurado, int N){
 	int i, j;
-	if (dificuldade ==1){
-		printf("PONTOS: %d \n\n", pontos);
-		for(i=0; i<Nf; i++) {
-	  	for(j=0; j<Nf; j++) 
-	      	printf ("%c  ", TabCensuradoF[i][j]);
+	printf("PONTOS: %d \n\n", pontos);
+		for(i=0; i<N; i++) {
+	  	for(j=0; j<N; j++) 
+	      	printf ("%c  ", TabCensurado[i][j]);
 	  	printf("\n");
     	}
-		printf("\n");
-		// ##########################
-	} if (dificuldade == 2) {
-		printf("PONTOS: %d \n\n", pontos);
-		for(i=0; i<Nd; i++) {
-	  	for(j=0; j<Nd; j++) 
-	      	printf ("%c  ", TabCensuradoD[i][j]);
-	  	printf("\n");
-    	}
-		printf("\n");
-	}
+	printf("\n");
 }
 
-void temporizador(int segundos){
+void temporizador(char **Tab, int N, int segundos){
     int i;
-    limpar();
+    system("cls");
     for ( i = segundos; i > 0; i--)
     {
-		mostra_tab2();
+		mostra_tab2(Tab, N);
 		printf("%d Segundos", i);
         sleep(1);
 		system("cls");
@@ -151,189 +127,145 @@ void corPreto(){
 	system("color 0F");
 }
 
-void tirandoCensura(){
+void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
 	char carta1, carta2;
 	system("cls");
-	if (dificuldade == 1){
-		mostra_tabCensurado();
-		printf("Digite LinhaxColuna: ");
-		scanf("%dx%d", &linhaAux1, &colunaAux1);
-		if (linhaAux1 < 1 || linhaAux1 > Nf || linhaAux1==NULL || colunaAux1 < 1 || colunaAux1 > Nf || colunaAux1 == NULL){
-			corVermelho();
-			printf("ERRO");
-			sleep(1);
-			corPreto();
-			tirandoCensura();
-		}
-		linhaAux1 = linhaAux1-1;
-		colunaAux1 = colunaAux1-1;
-		if (TabCensuradoF[linhaAux1][colunaAux1] == 'X'){
-			TabCensuradoF[linhaAux1][colunaAux1] = TabF[linhaAux1][colunaAux1];
-			carta1 = TabF[linhaAux1][colunaAux1];
-		} else {
-			printf("ERRO, %dx%d ja foi descoberto \n", linhaAux1+1, colunaAux1+1);
-			sleep(1);
-			tirandoCensura();
-		}
-		system("cls");
-		mostra_tabCensurado();
-		printf("Digite LinhaxColuna: ");
-		scanf("%dx%d", &linhaAux2, &colunaAux2);
-		if (linhaAux2 < 1 || linhaAux2 > Nf || linhaAux2==NULL || colunaAux2 < 1 || colunaAux2 > Nf || colunaAux2 == NULL){
-			corVermelho();
-			printf("ERRO");
-			sleep(1);
-			TabCensuradoF[linhaAux1][colunaAux1] = 'X';
-			corPreto();
-			tirandoCensura();
-		}
-		linhaAux2 = linhaAux2-1;
-		colunaAux2 = colunaAux2-1;
-		if (TabCensuradoF[linhaAux2][colunaAux2] == 'X'){
-			TabCensuradoF[linhaAux2][colunaAux2] = TabF[linhaAux2][colunaAux2];
-			carta2 = TabF[linhaAux2][colunaAux2];
-		} else {
-			printf("ERRO, %dx%d ja foi descoberto \n", linhaAux2+1, colunaAux2+1);
-			TabCensuradoF[linhaAux1][colunaAux1] = 'X';
-			sleep(1);
-			tirandoCensura();
-		}
-	
-		system("cls");
-		if (carta1 == carta2){
-			mostra_tabCensurado();
-			printf("\033[32mAcertou! \033[m");
-			sleep(2);
-			TabCensuradoF[linhaAux1][colunaAux1] = carta1;
-			TabCensuradoF[linhaAux2][colunaAux2] = carta2;
-			if (sequencia >= 3){
-				pontos = pontos+15;
-			} else {
-				pontos = pontos+10;
-			}
-			sequencia++;
-		} else {
-			mostra_tabCensurado();
-			printf("\033[31mErrou! \033[m");
-			sleep(2);
-			corPreto();
-			TabCensuradoF[linhaAux1][colunaAux1] = 'X';
-			TabCensuradoF[linhaAux2][colunaAux2] = 'X';
-			sequencia = 0;
-		}
-		mostra_tabCensurado();
-		for (i = 0; i < Nf; i++)
-		{
-			for ( j = 0; j < Nf; j++)
-			{
-				if (TabCensuradoF[i][j] == 'X')
-				tirandoCensura();
-			}
-		}
-		// ##########################
-	} if (dificuldade==2){
-		mostra_tabCensurado();
-		printf("Digite LinhaxColuna: ");
-		scanf("%dx%d", &linhaAux1, &colunaAux1);
-		if (linhaAux1 < 1 || linhaAux1 > Nd || linhaAux1==NULL || colunaAux1 < 1 || colunaAux1 > Nd || colunaAux1 == NULL){
-			corVermelho();
-			printf("ERRO");
-			sleep(1);
-			corPreto();
-			tirandoCensura();
-		}
-		linhaAux1 = linhaAux1-1;
-		colunaAux1 = colunaAux1-1;
-		if (TabCensuradoD[linhaAux1][colunaAux1] == 'X'){
-			TabCensuradoD[linhaAux1][colunaAux1] = TabD[linhaAux1][colunaAux1];
-			carta1 = TabD[linhaAux1][colunaAux1];
-		} else {
-			printf("ERRO, %dx%d ja foi descoberto \n", linhaAux1+1, colunaAux1+1);
-			sleep(1);
-			tirandoCensura();
-		}
-		system("cls");
-		mostra_tabCensurado();
-		printf("Digite LinhaxColuna: ");
-		scanf("%dx%d", &linhaAux2, &colunaAux2);
-		if (linhaAux2 < 1 || linhaAux2 > Nd || linhaAux2 == NULL || colunaAux2 < 1 || colunaAux2 > Nd || linhaAux2 == NULL){
-			corVermelho();
-			printf("ERRO");
-			sleep(1);
-			TabCensuradoD[linhaAux1][colunaAux1] = 'X';
-			corPreto();
-			tirandoCensura();
-		}
-		linhaAux2 = linhaAux2-1;
-		colunaAux2 = colunaAux2-1;
-		if (TabCensuradoD[linhaAux2][colunaAux2] == 'X'){
-			TabCensuradoD[linhaAux2][colunaAux2] = TabD[linhaAux2][colunaAux2];
-			carta2 = TabD[linhaAux2][colunaAux2];
-		} else {
-			printf("ERRO, %dx%d ja foi descoberto \n", linhaAux2+1, colunaAux2+1);
-			TabCensuradoD[linhaAux1][colunaAux1] = 'X'; //em caso de erro
-			sleep(1);
-			tirandoCensura();
-		}
-	
-		system("cls");
-		if (carta1 == carta2){
-			mostra_tabCensurado();
-			printf("\033[32mAcertou! \033[m");
-			sleep(2);
-			TabCensuradoD[linhaAux1][colunaAux1] = carta1;
-			TabCensuradoD[linhaAux2][colunaAux2] = carta2;
-			if (sequencia >= 3){
-				pontos = pontos+15;
-			} else {
-				pontos = pontos+10;
-			}
-			sequencia++;
-		} else {
-			mostra_tabCensurado();
-			printf("\033[31mErrou! \033[m");
-			sleep(2);
-			corPreto();
-			TabCensuradoD[linhaAux1][colunaAux1] = 'X';
-			TabCensuradoD[linhaAux2][colunaAux2] = 'X';
-			sequencia = 0;
-		}
-		mostra_tabCensurado();
-		for (i = 0; i < Nd; i++)
-		{
-			for ( j = 0; j < Nd; j++)
-			{
-				if (TabCensuradoD[i][j] == 'X')
-				tirandoCensura();
-			}
-		}
+	mostra_tabCensurado(TabCensurado, N);
+	printf("Digite LinhaxColuna: ");
+	scanf("%dx%d", &linhaAux1, &colunaAux1);
+	if (linhaAux1 < 1 || linhaAux1 > N || linhaAux1==NULL || colunaAux1 < 1 || colunaAux1 > N || colunaAux1 == NULL){
+		corVermelho();
+		printf("ERRO");
+		sleep(1);
+		corPreto();
+		tirandoCensura(Tab, TabCensurado, N);
+		return;
 	}
+	linhaAux1 = linhaAux1-1;
+	colunaAux1 = colunaAux1-1;
+	if (TabCensurado[linhaAux1][colunaAux1] == 'X'){
+		TabCensurado[linhaAux1][colunaAux1] = Tab[linhaAux1][colunaAux1];
+		carta1 = Tab[linhaAux1][colunaAux1];
+	} else {
+		printf("ERRO, %dx%d ja foi descoberto \n", linhaAux1+1, colunaAux1+1);
+		sleep(1);
+		tirandoCensura(Tab, TabCensurado, N);
+		return;
+	}
+	system("cls");
+	mostra_tabCensurado(TabCensurado, N);
+	printf("Digite LinhaxColuna: ");
+	scanf("%dx%d", &linhaAux2, &colunaAux2);
+	if (linhaAux2 < 1 || linhaAux2 > N || linhaAux2 == NULL || colunaAux2 < 1 || colunaAux2 > N || linhaAux2 == NULL ){
+		corVermelho();
+		printf("ERRO");
+		sleep(1);
+		TabCensurado[linhaAux1][colunaAux1] = 'X';
+		corPreto();
+		tirandoCensura(Tab, TabCensurado, N);
+		return;
+	}
+	linhaAux2 = linhaAux2-1;
+	colunaAux2 = colunaAux2-1;
+	if (TabCensurado[linhaAux2][colunaAux2] == 'X'){
+		TabCensurado[linhaAux2][colunaAux2] = Tab[linhaAux2][colunaAux2];
+		carta2 = Tab[linhaAux2][colunaAux2];
+	} else {
+		printf("ERRO, %dx%d ja foi descoberto \n", linhaAux2+1, colunaAux2+1);
+		TabCensurado[linhaAux1][colunaAux1] = 'X'; //em caso de erro
+		sleep(1);
+		tirandoCensura(Tab, TabCensurado, N);
+		return;
+	}
+	
+	system("cls");
+	if (carta1 == carta2){
+		mostra_tabCensurado(TabCensurado, N);
+		printf("\033[32mAcertou! \033[m");
+		sleep(2);
+		TabCensurado[linhaAux1][colunaAux1] = carta1;
+		TabCensurado[linhaAux2][colunaAux2] = carta2;
+		if (sequencia >= 3){
+			pontos = pontos+15;
+		} else {
+			pontos = pontos+10;
+		}
+		sequencia++;
+
+		for (i = 0; i < N; i++)
+		{
+			for ( j = 0; j < N; j++)
+			{
+				if (TabCensurado[i][j] == 'X'){
+					tirandoCensura(Tab, TabCensurado, N);
+					return;
+				}
+			}
+		}
+	} else {
+		mostra_tabCensurado(TabCensurado, N);
+		printf("\033[31mErrou! \033[m");
+		sleep(2);
+		corPreto();
+		TabCensurado[linhaAux1][colunaAux1] = 'X';
+		TabCensurado[linhaAux2][colunaAux2] = 'X';
+		sequencia = 0;
+		tirandoCensura(Tab, TabCensurado, N);
+		return;
+	}
+	mostra_tabCensurado(TabCensurado, N);
+}
+
+void freeMat(char **matriz, int N){
+    int i;
+    for ( i = 0; i < N; i++)
+    {
+        if (matriz[i] != NULL){
+            free(matriz[i]);
+        }
+    }
+    free(matriz);
 }
 
 int main() {
+	char **tab, **tabCensurado;
 	int jogarNovamente, M, N;
 	system("cls");
 	printf("Escolha a dificuldade:\n(1)Facil (2)Dificil: ");
 	scanf("%d", &dificuldade);
 	if (dificuldade == 1 || dificuldade == 2){
-		inicia_tab();
-		mostra_tab();
-    	temporizador(5);
-		tirandoCensura();
+		if (dificuldade == 1){
+			N = 4;
+			M = 8;
+		} else{
+			N = 6;
+			M = 18;
+		}
+		tab = alocaMat(N);
+		tabCensurado = alocaMatCensura(N);
+		inicia_tab(tab, tabCensurado, N, M);
+		mostra_tab(tab, N);
+		temporizador(tab, N, 5);
+		tirandoCensura(tab, tabCensurado, N);
 		system("cls");
-		mostra_tabCensurado();
+		mostra_tabCensurado(tabCensurado, N);
+		freeMat(tab, N);
+		freeMat(tab, N);
+		freeMat(tabCensurado, N);
 		printf("Parabens, voce fez %d Pontos \n", pontos);
 		sleep(1);
-		printf("Digite 1 para jogar novamente ou digite qualquer outra coisa para sair");
+		printf("Digite 1 para jogar novamente ou digite qualquer outra coisa para sair\n");
 		scanf("%d", &jogarNovamente);
 		if (jogarNovamente == 1){
 			main();
 		} else {
+			printf("\n");
 			system("pause");
 			return 0;
 		}
-	} else {
+	}
+	 else {
 		corVermelho();
 		printf("ERRO");
 		sleep(1);
@@ -341,3 +273,4 @@ int main() {
 		main();
 	}
 }
+
