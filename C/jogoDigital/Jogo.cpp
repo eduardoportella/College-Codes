@@ -7,6 +7,7 @@
 char cartasF[Mf] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 char cartasD[Md] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
 int pontos=0, sequencia=0, dificuldade;
+char nome;
 
 char **alocaMat(int N){
     char **tab;
@@ -228,10 +229,12 @@ void freeMat(char **matriz, int N){
     free(matriz);
 }
 
-int main() {
+void jogar(){
 	char **tab, **tabCensurado;
 	int jogarNovamente, M, N;
 	system("cls");
+	printf("Digite seu nome");
+	scanf("%c", &nome);
 	printf("Escolha a dificuldade:\n(1)Facil (2)Dificil: ");
 	scanf("%d", &dificuldade);
 	if (dificuldade == 1 || dificuldade == 2){
@@ -251,26 +254,62 @@ int main() {
 		system("cls");
 		mostra_tabCensurado(tabCensurado, N);
 		freeMat(tab, N);
-		freeMat(tab, N);
 		freeMat(tabCensurado, N);
 		printf("Parabens, voce fez %d Pontos \n", pontos);
 		sleep(1);
-		printf("Digite 1 para jogar novamente ou digite qualquer outra coisa para sair\n");
-		scanf("%d", &jogarNovamente);
-		if (jogarNovamente == 1){
-			main();
-		} else {
-			printf("\n");
-			system("pause");
-			return 0;
-		}
-	}
-	 else {
+	} else {
 		corVermelho();
 		printf("ERRO");
 		sleep(1);
 		corPreto();
-		main();
+		jogar();
 	}
+}
+
+void menu(){
+	int escolha;
+	printf("------------------------\n");
+	printf("         MENU\n");
+	printf("------------------------\n");
+	printf("1 - Novo jogo\n");
+	printf("2 - Carregar jogo em andamento\n");
+	printf("3 - Visualizar scores\n");
+	printf("4 - Encerrar\n");
+	printf("Informe sua escolha: ");
+	scanf("%d", &escolha);
+	switch (escolha)
+	{
+	case 1:
+		sleep(1);
+		jogar();
+		break;
+	
+	case 2:
+		sleep(1);
+		break;
+	
+	case 3:
+		sleep(1);
+		break;
+
+	case 4:
+		sleep(1);
+		break;
+
+	default:
+		corVermelho();
+		printf("ERRO");
+		sleep(1);
+		corPreto();
+		menu();
+		break;
+	}
+}
+
+int main() {
+	menu();
+
+	system("pause");
+	return 0;
 }
 
