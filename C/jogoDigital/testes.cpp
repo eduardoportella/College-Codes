@@ -3,14 +3,15 @@
 
 int main(){
     int pontos;
-    char nome;
+    char nome[10];
     FILE *file;
     file = fopen("teste.txt", "a");
     printf("NOME: ");
-    gets(&nome);
+    gets(nome);
+    printf("%s \n", nome);
     printf("PONTOS: ");
     scanf("%d", &pontos);
-    fprintf(file, "%c   %d\n", nome, pontos);
+    fprintf(file, "%s   %d\n", nome, pontos);
     fclose(file);
 
     system("pause");
