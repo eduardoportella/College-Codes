@@ -1,21 +1,27 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+typedef struct rank{
+    char nome[10];
+    int pontos;
+};
 
 void organizar(){
     FILE *fp;
-    int ponto, pontoMaior;
-    char nome[50], nomeMaior[50];
+    struct rank jogador;
+    int pontoMaior=0;
+    char nomeMaior[10];
     fp = fopen("teste.txt", "r"); //r de read
     if (fp == NULL){
         printf("Erro na abertura do arquivo \n");
         exit(-1);
     }
-
-    fscanf(fp, "%s   %d\n", &nome, &ponto);
-
     while(!feof(fp)){ //enquanto nao for final do arquivo
-        organizar();
-        return;
+        fscanf(fp, "%s   %d\n", jogador.nome, jogador.pontos);
+        if (jogador.pontos > pontoMaior){
+            pontoMaior = jogador.pontos;
+            strcpy(nomeMaior, jogador.nome);
+        }
     }
     printf("%c %d", nomeMaior, pontoMaior);
     fclose(fp);
@@ -23,17 +29,17 @@ void organizar(){
 
 int main(){
     fflush(stdin);
-    int pontos;
-    char nome[50], repetir;
+    char repetir;
+    struct rank jogador;
     FILE *file;
     organizar();
     file = fopen("teste.txt", "a");
     printf("NOME: ");
-    gets(nome);
-    printf("%s \n", nome);
+    fgets(jogador.nome, 10, stdin);
+    printf("%s \n", jogador.nome);
     printf("PONTOS: ");
-    scanf("%d", &pontos);
-    fprintf(file, "%s   %d\n", nome, pontos);
+    scanf("%d", &jogador.pontos);
+    fprintf(file, "%s   %d\n", jogador.nome, jogador.pontos);
     fclose(file);
     printf("Continuar? [S/N]");
     fflush(stdin);

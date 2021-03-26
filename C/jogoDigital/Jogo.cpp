@@ -87,16 +87,6 @@ void mostra_tab(char **Tab, int N) {
     }
 }
 
-void mostra_tab2(char **Tab, int N) {
-	int i, j;
-	for(i=0; i<N; i++) {
-	  	for(j=0; j<N; j++) 
-	      	printf ("%c  ", Tab[i][j]);
-	  	printf("\n");
-    	}
-	printf("\n");
-}
-
 void mostra_tabCensurado(char **TabCensurado, int N){
 	int i, j;
 	printf("PONTOS: %d \n\n", pontos);
@@ -113,7 +103,8 @@ void temporizador(char **Tab, int N, int segundos){
     system("cls");
     for ( i = segundos; i > 0; i--)
     {
-		mostra_tab2(Tab, N);
+		mostra_tab(Tab, N);
+		printf("\n");
 		printf("%d Segundos", i);
         sleep(1);
 		system("cls");
@@ -273,7 +264,7 @@ void menu(){
 	printf("------------------------\n");
 	printf("1 - Novo jogo\n");
 	printf("2 - Carregar jogo em andamento\n");
-	printf("3 - Visualizar scores\n");
+	printf("3 - Ranking\n");
 	printf("4 - Encerrar\n");
 	printf("Informe sua escolha: ");
 	scanf("%d", &escolha);
