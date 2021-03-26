@@ -105,7 +105,10 @@ void temporizador(char **Tab, int N, int segundos){
     {
 		mostra_tab(Tab, N);
 		printf("\n");
-		printf("%d Segundos", i);
+		if (i>1)
+			printf("%d Segundos", i);
+		else
+			printf("%d Segundo", i);
         sleep(1);
 		system("cls");
     }
