@@ -49,16 +49,14 @@ char **alocaMatCensura(int N){
 }
 
 void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
-	int x, cont, i, j;
+	int x, cont, i, j, k;
 	srand(time(NULL));
 	for(i=0; i<N; i++)
 	  	for(j=0; j<N; j++){
 			tab[i][j]= 'Z';
 			TabCensurado[i][j] = 'X';
 	  	}
-	
-		
-    	x=0;
+		x=0;
     	cont=0;
 		while (x<M){  // para cada elemento em V
 			i=rand() % N;
@@ -87,16 +85,6 @@ void mostra_tab(char **Tab, int N) {
     }
 }
 
-void mostra_tab2(char **Tab, int N) {
-	int i, j;
-	for(i=0; i<N; i++) {
-	  	for(j=0; j<N; j++) 
-	      	printf ("%c  ", Tab[i][j]);
-	  	printf("\n");
-    	}
-	printf("\n");
-}
-
 void mostra_tabCensurado(char **TabCensurado, int N){
 	int i, j;
 	printf("PONTOS: %d \n\n", pontos);
@@ -113,7 +101,8 @@ void temporizador(char **Tab, int N, int segundos){
     system("cls");
     for ( i = segundos; i > 0; i--)
     {
-		mostra_tab2(Tab, N);
+		mostra_tab(Tab, N);
+		printf("\n");
 		printf("%d Segundos", i);
         sleep(1);
 		system("cls");
@@ -312,4 +301,3 @@ int main() {
 	system("pause");
 	return 0;
 }
-
