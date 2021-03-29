@@ -28,7 +28,7 @@ tcontato * leitura(char filename[], int *qc) {
         *qc=tb/sizeof(tcontato); 
         fseek(fp, 0, SEEK_SET);
     }
-    tb=tb+ 1000*sizeof(tcontato);  // adicionando 1000 espaços no vetor 
+    tb=tb+ 1000*sizeof(tcontato);  // adicionando 1000 espaï¿½os no vetor 
     v=(tcontato *) malloc(tb);
     
     for(i=0; i<*qc; i++) {
@@ -85,7 +85,7 @@ void listar(tcontato *v, int qc){
     system("pause");
 }
 
-// Função principal.
+// Funï¿½ï¿½o principal.
 int main() {
   int qc;
   tcontato *agenda;  

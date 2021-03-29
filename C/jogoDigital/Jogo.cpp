@@ -212,6 +212,26 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	mostra_tabCensurado(TabCensurado, N);
 }
 
+int salva(int N){
+    FILE *fp;
+    int i;
+    fp = fopen("matriz.dad", "wb");
+    if (fp==NULL) return -1;
+    fwrite(fp, N*N*sizeof(int), 1, fp);
+    fclose(fp);
+    return 0;
+}
+
+int **carrega(int N){
+    FILE *fp;
+    int i;
+    fp = fopen("matriz.dad", "rb");
+    if (fp == NULL) return NULL;
+    fread(fp, N*N*sizeof(int), 1, fp);
+    fclose(fp);
+    return ;
+}
+
 void freeMat(char **matriz, int N){
     int i;
     for ( i = 0; i < N; i++)
@@ -306,4 +326,3 @@ int main() {
 	system("pause");
 	return 0;
 }
-
