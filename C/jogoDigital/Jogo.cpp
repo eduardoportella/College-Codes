@@ -48,12 +48,15 @@ char **alocaMatCensura(int N){
     return TabCensurado;
 }
 
-char salva(char **X, int N){
+char salva(char **Tab, int N){
     FILE *fp;
     int i;
     fp = fopen("matriz.dad", "wb");
     if (fp==NULL) return -1;
-    fwrite(X, N*N*sizeof(char), 1, fp);
+    for ( i = 0; i < N; i++)
+    {
+        fwrite(Tab[i], N*sizeof(char), 1, fp);
+    }
     fclose(fp);
     return 0;
 }
@@ -61,16 +64,19 @@ char salva(char **X, int N){
 char **carrega(int N){
     FILE *fp;
     int i;
-	char **X;
-    X = alocaMat(N);
-    if (X==NULL){
+	char **Tab;
+    Tab = alocaMat(N);
+    if (Tab==NULL){
         return NULL;
     }
     fp = fopen("matriz.dad", "rb");
     if (fp == NULL) return NULL;
-	fread(X, N*N*sizeof(char), 1, fp);
+	for ( i = 0; i < N; i++)
+    {
+        fread(Tab[i], N*sizeof(char), 1, fp);
+    }
     fclose(fp);
-    return X;
+    return Tab;
 }
 
 void freeMat(char **matriz, int N){
@@ -299,6 +305,7 @@ void jogar(){
 		tabCensurado = alocaMatCensura(N);
 		if (carregaMatriz == true){
 			tab = carrega(N);
+			mostra_tab(tab, N);
 			if (tab == NULL){
 				corVermelho();
 				printf("ERRO. Voce nao tem um jogo salvo\n");
@@ -313,7 +320,6 @@ void jogar(){
 			inicia_tab(tab, tabCensurado, N, M);
 		}
 		mostra_tab(tab, N);
-		printf("teste: ");
 		temporizador(tab, N, 5);
 		tirandoCensura(tab, tabCensurado, N);
 		system("cls");
