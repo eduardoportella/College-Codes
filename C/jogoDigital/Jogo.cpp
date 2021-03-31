@@ -7,7 +7,7 @@
 char cartasF[Mf] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 char cartasD[Md] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
 int pontos=0, sequencia=0, dificuldade;
-char nome;
+bool carregaMatriz = false;
 
 char **alocaMat(int N){
     char **tab;
@@ -48,6 +48,42 @@ char **alocaMatCensura(int N){
     return TabCensurado;
 }
 
+char salva(char **X, int N){
+    FILE *fp;
+    int i;
+    fp = fopen("matriz.dad", "wb");
+    if (fp==NULL) return -1;
+    fwrite(X, N*N*sizeof(char), 1, fp);
+    fclose(fp);
+    return 0;
+}
+
+char **carrega(int N){
+    FILE *fp;
+    int i;
+	char **X;
+    X = alocaMat(N);
+    if (X==NULL){
+        return NULL;
+    }
+    fp = fopen("matriz.dad", "rb");
+    if (fp == NULL) return NULL;
+	fread(X, N*N*sizeof(char), 1, fp);
+    fclose(fp);
+    return X;
+}
+
+void freeMat(char **matriz, int N){
+    int i;
+    for ( i = 0; i < N; i++)
+    {
+        if (matriz[i] != NULL){
+            free(matriz[i]);
+        }
+    }
+    free(matriz);
+}
+
 void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
 	int x, cont, i, j;
 	srand(time(NULL));
@@ -56,8 +92,6 @@ void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
 			tab[i][j]= 'Z';
 			TabCensurado[i][j] = 'X';
 	  	}
-	
-		
     	x=0;
     	cont=0;
 		while (x<M){  // para cada elemento em V
@@ -76,6 +110,13 @@ void inicia_tab(char **tab, char **TabCensurado, int N, int M) {
 		    	cont = 0;
 			}
 		}	
+}
+
+void inicia_somenteTabCensurado(char **TabCensurado, int N){
+	int i, j;
+	for(i=0; i<N; i++)
+	  	for(j=0; j<N; j++)
+			TabCensurado[i][j] = 'X';
 }
 
 void mostra_tab(char **Tab, int N) {
@@ -124,11 +165,24 @@ void corPreto(){
 
 void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
-	char carta1, carta2;
+	char carta1, carta2, **tab2;
 	system("cls");
 	mostra_tabCensurado(TabCensurado, N);
 	printf("Digite LinhaxColuna: ");
 	scanf("%dx%d", &linhaAux1, &colunaAux1);
+	 if (linhaAux1 == -1 && colunaAux1 == -1){
+		salva(Tab, N);
+		tab2 = carrega(N);
+		if (tab2 == NULL){
+			printf("Erro ao salvar o jogo");
+		} else {
+			printf("Jogo salvo com sucesso!");
+		}
+		freeMat(tab2, N);
+		sleep(1);
+		system("cls");
+		return;
+	}
 	if (linhaAux1 < 1 || linhaAux1 > N || linhaAux1==NULL || colunaAux1 < 1 || colunaAux1 > N || colunaAux1 == NULL){
 		corVermelho();
 		printf("ERRO");
@@ -152,6 +206,19 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	mostra_tabCensurado(TabCensurado, N);
 	printf("Digite LinhaxColuna: ");
 	scanf("%dx%d", &linhaAux2, &colunaAux2);
+	if (linhaAux2 ==-1 && colunaAux2 == -1){
+		TabCensurado[linhaAux1][colunaAux1] = 'X';
+		salva(Tab, N);
+		tab2 = carrega(N);
+		if (tab2 == NULL){
+			printf("Erro ao salvar o jogo");
+		} else {
+			printf("Jogo salvo com sucesso!");
+		}
+		freeMat(tab2, N);
+		system("cls");
+		return;
+	}
 	if (linhaAux2 < 1 || linhaAux2 > N || linhaAux2 == NULL || colunaAux2 < 1 || colunaAux2 > N || linhaAux2 == NULL ){
 		corVermelho();
 		printf("ERRO");
@@ -160,7 +227,7 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 		corPreto();
 		tirandoCensura(Tab, TabCensurado, N);
 		return;
-	}
+	} 
 	linhaAux2 = linhaAux2-1;
 	colunaAux2 = colunaAux2-1;
 	if (TabCensurado[linhaAux2][colunaAux2] == 'X'){
@@ -212,43 +279,13 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	mostra_tabCensurado(TabCensurado, N);
 }
 
-int salva(int N){
-    FILE *fp;
-    int i;
-    fp = fopen("matriz.dad", "wb");
-    if (fp==NULL) return -1;
-    fwrite(fp, N*N*sizeof(int), 1, fp);
-    fclose(fp);
-    return 0;
-}
-
-int **carrega(int N){
-    FILE *fp;
-    int i;
-    fp = fopen("matriz.dad", "rb");
-    if (fp == NULL) return NULL;
-    fread(fp, N*N*sizeof(int), 1, fp);
-    fclose(fp);
-    return ;
-}
-
-void freeMat(char **matriz, int N){
-    int i;
-    for ( i = 0; i < N; i++)
-    {
-        if (matriz[i] != NULL){
-            free(matriz[i]);
-        }
-    }
-    free(matriz);
-}
-
 void jogar(){
 	char **tab, **tabCensurado;
 	int jogarNovamente, M, N;
 	system("cls");
-	printf("Digite seu nome");
-	scanf("%c", &nome);
+	printf("Lembre-se: digitando -1x-1 o jogo sera salvo");
+	sleep(1);
+	system("cls");
 	printf("Escolha a dificuldade:\n(1)Facil (2)Dificil: ");
 	scanf("%d", &dificuldade);
 	if (dificuldade == 1 || dificuldade == 2){
@@ -259,10 +296,24 @@ void jogar(){
 			N = 6;
 			M = 18;
 		}
-		tab = alocaMat(N);
 		tabCensurado = alocaMatCensura(N);
-		inicia_tab(tab, tabCensurado, N, M);
+		if (carregaMatriz == true){
+			tab = carrega(N);
+			if (tab == NULL){
+				corVermelho();
+				printf("ERRO. Voce nao tem um jogo salvo\n");
+				sleep(1);
+				corPreto();
+				system("cls");
+				return;
+			}
+			inicia_somenteTabCensurado(tabCensurado, N);
+		} else{
+			tab = alocaMat(N);
+			inicia_tab(tab, tabCensurado, N, M);
+		}
 		mostra_tab(tab, N);
+		printf("teste: ");
 		temporizador(tab, N, 5);
 		tirandoCensura(tab, tabCensurado, N);
 		system("cls");
@@ -282,11 +333,13 @@ void jogar(){
 
 void menu(){
 	int escolha;
+	char **tab, **tabCensurado;
+	int N, M;
 	printf("------------------------\n");
 	printf("         MENU\n");
 	printf("------------------------\n");
 	printf("1 - Novo jogo\n");
-	printf("2 - Carregar jogo em andamento\n");
+	printf("2 - Carregar jogo\n");
 	printf("3 - Ranking\n");
 	printf("4 - Encerrar\n");
 	printf("Informe sua escolha: ");
@@ -296,14 +349,22 @@ void menu(){
 	case 1:
 		sleep(1);
 		jogar();
+		menu();
 		break;
 	
 	case 2:
 		sleep(1);
+		carregaMatriz = true;
+		jogar();
+		sleep(1);
+		system("cls");
+		menu();
 		break;
 	
 	case 3:
 		sleep(1);
+		system("cls");
+		menu();
 		break;
 
 	case 4:
