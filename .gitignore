@@ -2,6 +2,5 @@
 *.json
 *.exe
 *.txt
-matriz.dad
-matrizCensurada.dad
+*.dad
 c-programming.png

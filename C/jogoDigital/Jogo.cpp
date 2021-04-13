@@ -2,12 +2,26 @@
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #define Mf 8
 #define Md 18
 char cartasF[Mf] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 char cartasD[Md] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'};
+char nome[20];
 int pontos=0, sequencia=0, dificuldade;
-bool carregaMatriz = false;
+bool carregaMatriz = false, salvandoJogo=false;
+
+typedef struct{
+	char nome[20];
+	int pontos, sequencia;
+}registro;
+registro reg, reg_loaded;
+
+typedef struct{
+	char nome1[10], nome2[10], nome3[10];
+	int pontos1=0, pontos2=0, pontos3=0;
+}ranking;
+ranking rank, rank_loaded, rank_zera;
 
 char **alocaMat(int N){
     char **tab;
@@ -27,25 +41,6 @@ char **alocaMat(int N){
     }
     return tab;
 	
-}
-
-char **alocaMatCensura(int N){
-    char **TabCensurado;
-	int i;
-    TabCensurado = (char **) malloc(N*sizeof(char *));
-    if (TabCensurado == NULL){
-        printf("Erro ao alocar memoria \n");
-        exit(-1);
-    }
-    for ( i = 0; i < N; i++)
-    {
-        TabCensurado[i] = (char *) malloc(N*sizeof(char));
-        if (TabCensurado[i] == NULL){
-            printf("Erro ao alocar memoria\n");
-            exit(-1);
-        }
-    }
-    return TabCensurado;
 }
 
 char salva(char **Tab, int N, int x){
@@ -72,6 +67,57 @@ int salvaDimensao(int N){
 	fprintf(fp, "%d", N);
 	fclose(fp);
 	return N;
+}
+
+void salvaRegistro(){
+	FILE *fp;
+    fp = fopen("registro.dad", "wb");
+    if (fp==NULL){
+        printf("Erro ao criar arquivo");
+        exit(-1);
+    }
+    fwrite(&reg, sizeof(reg), 1, fp);
+    fclose(fp);
+}
+
+void salvaRanking(){
+	FILE *fp;
+    fp = fopen("ranking.dad", "wb");
+    if (fp==NULL){
+        printf("Erro ao criar arquivo");
+        exit(-1);
+    }
+    fwrite(&rank, sizeof(rank), 1, fp);
+    fclose(fp);
+}
+
+void rankingJogadores(int pontos, char nome[10]){
+	int pontosAux;
+	char nomeAux[10];
+	if (pontos > rank.pontos1){
+		pontosAux = rank.pontos1;
+		strcpy(nomeAux, rank.nome1);
+		rank.pontos1 = pontos;
+		strcpy(rank.nome1, nome);
+		rankingJogadores(pontosAux, nomeAux);
+		return;
+	} else if (pontos > rank.pontos2){
+		pontosAux = rank.pontos2;
+		strcpy(nomeAux, rank.nome2);
+		rank.pontos2 = pontos;
+		strcpy(rank.nome2, nome);
+		rankingJogadores(pontosAux, nomeAux);
+		return;
+	} else if(pontos > rank.pontos3){
+		pontosAux = rank.pontos3;
+		strcpy(nomeAux, rank.nome3);
+		rank.pontos3 = pontos;
+		strcpy(rank.nome3, nome);
+		rankingJogadores(pontosAux, nomeAux);
+		return;
+	} else{
+		return;
+	}
 }
 
 char **carrega(int N, int x){
@@ -106,6 +152,38 @@ int carregaDimensao(){
 	fscanf(fp, "%d", &n);
 	fclose(fp);
 	return n;
+}
+
+registro carregaRegistro(){
+	FILE *fp;
+	registro reg2;
+    fp = fopen("registro.dad", "rb");
+    if (fp==NULL){
+        printf("Erro ao abrir arquivo");
+        exit(-2);
+    }
+    fread(&reg2, sizeof(reg2), 1, fp);
+    fclose(fp);
+	return reg2;
+}
+
+ranking carregaRanking(){
+	FILE *fp;
+	ranking rank2;
+    fp = fopen("ranking.dad", "rb");
+    if (fp==NULL){
+		salvaRanking();
+		fread(&rank2, sizeof(rank2), 1, fp);
+		if (fp==NULL){
+			corVermelho();
+			printf("ERRO. Nao ha jogos registrados\n");
+			sleep(2);
+			corPreto();
+		}
+    }
+    fread(&rank2, sizeof(rank2), 1, fp);
+    fclose(fp);
+	return rank2;
 }
 
 void freeMat(char **matriz, int N){
@@ -158,12 +236,13 @@ void mostra_tab(char **Tab, int N) {
 
 void mostra_tabCensurado(char **TabCensurado, int N){
 	int i, j;
+	printf("Jogador(a): %s\n", nome);
 	printf("PONTOS: %d \n\n", pontos);
 		for(i=0; i<N; i++) {
 	  	for(j=0; j<N; j++) 
 	      	printf ("%c  ", TabCensurado[i][j]);
 	  	printf("\n");
-    	}
+    }
 	printf("\n");
 }
 
@@ -194,6 +273,7 @@ void corPreto(){
 void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
 	char carta1, carta2, **tab2, **tab3;
+	salvandoJogo = false;
 	system("cls");
 	mostra_tabCensurado(TabCensurado, N);
 	printf("Digite LinhaxColuna: ");
@@ -202,8 +282,13 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 		salva(Tab, N, 1);
 		salva(TabCensurado, N, 2);
 		salvaDimensao(N);
+		reg.pontos = pontos;
+		reg.sequencia = sequencia;
+		strcpy(reg.nome, nome);
+		salvaRegistro();
 		tab2 = carrega(N, 1);
 		tab3 = carrega(N, 2);
+		salvandoJogo = true;
 		if (tab2 == NULL || tab3 == NULL){
 			printf("Erro ao salvar o jogo");
 		} else {
@@ -218,6 +303,7 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	if (linhaAux1 < 1 || linhaAux1 > N || linhaAux1==NULL || colunaAux1 < 1 || colunaAux1 > N || colunaAux1 == NULL){
 		corVermelho();
 		printf("ERRO");
+		fflush(stdin);
 		sleep(1);
 		corPreto();
 		tirandoCensura(Tab, TabCensurado, N);
@@ -243,6 +329,11 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 		salva(Tab, N, 1);
 		salva(TabCensurado, N, 2);
 		salvaDimensao(N);
+		reg.pontos = pontos;
+		reg.sequencia = sequencia;
+		salvandoJogo = true;
+		strcpy(reg.nome, nome);
+		salvaRegistro();
 		tab2 = carrega(N, 1);
 		tab3 = carrega(N, 2);
 		if (tab2 == NULL || tab3 == NULL){
@@ -258,6 +349,7 @@ void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	if (linhaAux2 < 1 || linhaAux2 > N || linhaAux2 == NULL || colunaAux2 < 1 || colunaAux2 > N || linhaAux2 == NULL ){
 		corVermelho();
 		printf("ERRO");
+		fflush(stdin);
 		sleep(1);
 		TabCensurado[linhaAux1][colunaAux1] = 'X';
 		corPreto();
@@ -320,9 +412,13 @@ void jogar(){
 	int jogarNovamente, M, N, i, j;
 	system("cls");
 	printf("Lembre-se: digitando -1x-1 o jogo sera salvo");
-	sleep(2);
+	sleep(3);
 	system("cls");
 	if (carregaMatriz == true){
+		reg_loaded = carregaRegistro();
+		strcpy(nome, reg_loaded.nome);
+		pontos = reg_loaded.pontos;
+		sequencia = reg_loaded.sequencia;
 		N = carregaDimensao();
 		tab = carrega(N, 1);
 		tabCensurado = carrega(N, 2);
@@ -336,6 +432,8 @@ void jogar(){
 			return;
 		}
 	} else{
+		printf("Digite seu nome: ");
+		scanf("%s", &nome);
 		printf("Escolha a dificuldade:\n(1)Facil (2)Dificil: ");
 		scanf("%d", &dificuldade);
 		if (dificuldade == 1 || dificuldade == 2){
@@ -346,7 +444,7 @@ void jogar(){
 				N = 6;
 				M = 18;
 			}
-			tabCensurado = alocaMatCensura(N);
+			tabCensurado = alocaMat(N);
 			if (carregaMatriz == true){
 			} else{
 				tab = alocaMat(N);
@@ -360,6 +458,7 @@ void jogar(){
 			printf("ERRO");
 			sleep(1);
 			corPreto();
+			fflush(stdin);
 			jogar();
 		}
 	}
@@ -369,6 +468,11 @@ void jogar(){
 	freeMat(tab, N);
 	freeMat(tabCensurado, N);
 	printf("Parabens, voce fez %d Pontos \n", pontos);
+	if (salvandoJogo == false){
+		rank = carregaRanking();
+		rankingJogadores(pontos, nome);
+		salvaRanking();
+	}
 	sleep(2);
 }
 
@@ -390,6 +494,7 @@ void menu(){
 	{
 	case 1:
 		sleep(1);
+		carregaMatriz = false;
 		jogar();
 		menu();
 		break;
@@ -406,6 +511,13 @@ void menu(){
 	case 3:
 		sleep(1);
 		system("cls");
+		rank_loaded = carregaRanking();
+		printf("1 lugar: %s com %d pontos\n", rank_loaded.nome1, rank_loaded.pontos1);
+		printf("2 lugar: %s com %d pontos\n", rank_loaded.nome2, rank_loaded.pontos2);
+		printf("3 lugar: %s com %d pontos\n", rank_loaded.nome3, rank_loaded.pontos3);
+		printf("\nDigite algo para sair: ");
+		int sair;
+		scanf("%d", &sair);
 		menu();
 		break;
 
