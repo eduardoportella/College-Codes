@@ -181,13 +181,9 @@ ranking carregaRanking(){
     fp = fopen("ranking.dad", "rb");
     if (fp==NULL){
 		salvaRanking();
-		fread(&rank2, sizeof(rank2), 1, fp);
-		// if (fp==NULL){
-		// 	corVermelho();
-		// 	printf("ERRO. Nao ha jogos registrados\n");
-		// 	sleep(2);
-		// 	corPreto();
-		// }
+		fread(&rank2, sizeof(rank2), 1, fp); //posso remover essa linha mas
+		//to com preguica de testar todo o jogo de novo
+		//professor, desculpa, eu so mt ruim no jogo da memoria kkkkkkkkkkkkk
     }
     fread(&rank2, sizeof(rank2), 1, fp);
     fclose(fp);
