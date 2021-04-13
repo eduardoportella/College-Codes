@@ -18,10 +18,18 @@ typedef struct{
 registro reg, reg_loaded;
 
 typedef struct{
-	char nome1[10], nome2[10], nome3[10];
+	char nome1[10]="", nome2[10]="", nome3[10]="";
 	int pontos1=0, pontos2=0, pontos3=0;
 }ranking;
 ranking rank, rank_loaded, rank_zera;
+
+void corVermelho(){
+    system("color 4F");
+}
+
+void corPreto(){
+	system("color 0F");
+}
 
 char **alocaMat(int N){
     char **tab;
@@ -174,12 +182,12 @@ ranking carregaRanking(){
     if (fp==NULL){
 		salvaRanking();
 		fread(&rank2, sizeof(rank2), 1, fp);
-		if (fp==NULL){
-			corVermelho();
-			printf("ERRO. Nao ha jogos registrados\n");
-			sleep(2);
-			corPreto();
-		}
+		// if (fp==NULL){
+		// 	corVermelho();
+		// 	printf("ERRO. Nao ha jogos registrados\n");
+		// 	sleep(2);
+		// 	corPreto();
+		// }
     }
     fread(&rank2, sizeof(rank2), 1, fp);
     fclose(fp);
@@ -262,13 +270,6 @@ void temporizador(char **Tab, int N, int segundos){
     }
 }
 
-void corVermelho(){
-    system("color 4F");
-}
-
-void corPreto(){
-	system("color 0F");
-}
 
 void tirandoCensura(char **Tab, char **TabCensurado, int N){
 	int i, j, linhaAux1, linhaAux2, colunaAux1, colunaAux2;
