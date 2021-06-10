@@ -10,7 +10,7 @@ void push(int valor){
         cout << "Pilha cheia!" << endl;
         return;
     }
-    topo = topo-1;
+    topo = topo+1;
     pilha[topo]=valor;
     cout << "Valor inserido com sucesso" << endl;
 }
