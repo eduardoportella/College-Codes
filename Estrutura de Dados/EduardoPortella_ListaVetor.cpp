@@ -39,16 +39,33 @@ void recuperaLista(int posicao){
         cout << "Posicao invalida" << endl;
         return;
     }
-    cout << "Elemento e " << lista[posicao] << endl;
+    cout << "O elemento da posicao " << posicao << " e: " << lista[posicao] << endl;
 }
 
 void buscaLista(int valor){
-// Verifica se o valor esta na lista
+    int i;
+    for ( i = 0; i < tamanho; i++)
+    {
+        if (lista[i] == valor){
+            cout << "O valor " << valor << " esta na posicao " << i << endl;
+            return;
+        }
+    }
+    cout << "O valor " << valor << " nao esta na lista" << endl;
+    
 }
 
 int main(){
     insereLista(5,0);
     insereLista(10,1);
     insereLista(8,0);
+    buscaLista(8);
+    buscaLista(1);
+    buscaLista(5);
     imprime();
+    recuperaLista(3);
+    recuperaLista(0);
+
+    system("pause");
+    return 0;
 }
