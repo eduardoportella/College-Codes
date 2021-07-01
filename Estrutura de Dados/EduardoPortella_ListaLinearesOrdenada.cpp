@@ -36,6 +36,18 @@ void removeLista(int valor){
     cout << "Elemento nao encontrado" << endl;
 }
 
+void buscaLista(int valor){
+    int i;
+    for ( i = 0; i < tamanho; i++)
+    {
+        if (lista[i] == valor){
+            cout << "O valor " << valor << " esta na posicao " << i+1 << endl;
+            return;
+        }
+    }
+    cout << "O valor " << valor << " nao esta na lista" << endl;
+}
+
 void imprime(){
     int i;
     for (i=0; i<tamanho; i++){
@@ -50,6 +62,7 @@ int main(){
     insereLista(5);
     insereLista(11);
     imprime();
+    buscaLista(11);
     removeLista(16);
     removeLista(8);
     imprime();
