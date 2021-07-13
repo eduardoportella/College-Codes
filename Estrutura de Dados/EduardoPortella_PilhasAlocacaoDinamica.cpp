@@ -1,13 +1,13 @@
 #include <iostream>
 using namespace std;
 
-struct no {
+struct no { //struct recursiva
     int dado;
     struct no *prox;
 };
-struct no *topo = NULL;
+struct no *topo = NULL; //por enquanto, o valor da struct dentro da struct esta vazio
 
-void push(int valor){
+void push(int valor){ //colocando dados
     struct no *novo;
 
     novo = new (struct no);
@@ -28,7 +28,7 @@ void pop(){
     }
 }
 
-void topoPilha(){
+void topoPilha(){ //variavel aux recebe a struct, mas recebe com os dados da variavel topo
     struct no *aux=topo;
     cout << "\nTopo: " << aux->dado << "\n";
 }
