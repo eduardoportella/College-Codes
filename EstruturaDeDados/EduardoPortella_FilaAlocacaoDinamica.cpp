@@ -11,7 +11,6 @@ struct no *fim=NULL;
 
 void insereF(int valor){
     struct no *novo;
-
     novo = new(struct no);
     novo -> dado = valor;
     novo -> prox =NULL;
@@ -40,7 +39,7 @@ void removeF(){
 
 void inicioF(){
     struct no *aux = inicio;
-    cout << "Inicio: " << aux->dado << endl;
+    cout << aux->dado << endl;
 }
 
 void imprime(){
@@ -58,13 +57,4 @@ int main(){
     insereF(30);
     imprime();
     inicioF();
-    removeF();
-    imprime();
-    inicioF();
-    insereF(40);
-    imprime();
-    inicioF();
-
-    system("pause");
-    return 0;
 }
