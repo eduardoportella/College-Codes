@@ -9,57 +9,96 @@ package classes;
  *
  * @author eport
  */
-public class jogodavelha extends javax.swing.JFrame {
+public final class jogodavelha extends javax.swing.JFrame {
     boolean vezX = true;
-    boolean usado[]= {false, false, false, false, false, false, false, false, false};
+    boolean empatou = false;
+    int cont=0;
     String matriz[][] = new String[3][3];
-    int usadoInt = 0;
 
     /**
      * Creates new form jogodavelha
      */
-    public jogodavelha() {
-        initComponents();
-        for(int i=0; i<2;i++){
-            for(int j=0; j<2; j++){
+    
+    public void iniciaMatriz() {
+        for(int i=0; i<3;i++){
+            for(int j=0; j<3; j++){
                 matriz[i][j]="vazio";
             }
         }
     }
     
-    public void ganhou(){
-        int teste=0;
-        for (int i=0; i<2; i++){
-            if ("X".equals(matriz[0][i])){
-                teste+=1;
-                if (teste==3){
-                    vezTxt.setText("ganhooo");
-                    return;
+    public jogodavelha() {
+        initComponents();
+        iniciaMatriz();
+    }
+    
+    
+    public boolean ganhou(){
+        int contX=0, contO=0;
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                if ("X".equals(matriz[i][j])){
+                    contX++;
+                } if ("O".equals(matriz[i][j])){
+                    contO++;
+                }
+                if (contX==3 || contO==3 || "X".equals(matriz[0][0]) && "X".equals(matriz[1][1]) &&
+                "X".equals(matriz[2][2]) || "O".equals(matriz[0][0]) && "O".equals(matriz[1][1]) &&
+                "O".equals(matriz[2][2])){
+                    return true;
                 }
             }
+            contX=0;
+            contO=0;
         }
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                if ("X".equals(matriz[j][i])){
+                    contX++;
+                } if ("O".equals(matriz[j][i])){
+                    contO++;
+                }
+                if (contX==3 || contO==3){
+                    return true;
+                }
+            }
+            contX=0;
+            contO=0;
+        }
+        return false;
     }
+  
     
     public String alternaJogador(){
         ganhou();
-        usadoInt+=1;
-        if (usadoInt == 9){
+        if (ganhou() == true){
             if (vezX==true){
-                vezTxt.setText("cabo");
+                vezX = false;
+                vezTxt.setText("X ganhou");
                 return "X";
             } else{
-                vezTxt.setText("cabo");
+                vezX = true;
+                vezTxt.setText("O ganhou");
                 return "O";
             }
-        }
-        if (vezX==true){
-            vezX = false;
-            vezTxt.setText("Vez de O");
-            return "X";
         } else{
-            vezX = true;
-            vezTxt.setText("Vez de X");
-            return "O";
+            if (vezX==true){
+                vezX = false;
+                vezTxt.setText("Vez de O");
+                cont++;
+                if(cont>7){
+                    vezTxt.setText("Empatou!");
+                }
+                return "X";
+            } else{
+                vezX = true;
+                vezTxt.setText("Vez de X");
+                cont++;
+                if(cont>8){
+                    vezTxt.setText("Empatou!");
+                }
+                return "O";
+            }
         }
     }
 
@@ -179,6 +218,11 @@ public class jogodavelha extends javax.swing.JFrame {
         vezTxt.setText("Vez de X");
 
         jMenu5.setText("Arquivo");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
 
         jMenuItem1.setText("Novo");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +233,11 @@ public class jogodavelha extends javax.swing.JFrame {
         jMenu5.add(jMenuItem1);
 
         jMenuItem2.setText("Sair");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem2);
 
         jMenuBar2.add(jMenu5);
@@ -257,115 +306,139 @@ public class jogodavelha extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+    vezX = true;
+    empatou = false;
+    cont=0;
+    iniciaMatriz();
+    vezTxt.setText("Vez de X");
+    btn1.setText("");
+    btn2.setText("");
+    btn3.setText("");
+    btn4.setText("");
+    btn5.setText("");
+    btn6.setText("");
+    btn7.setText("");
+    btn8.setText("");
+    btn9.setText("");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         // TODO add your handling code here:
-        if (usado[0]== false){
-            btn1.setText(alternaJogador());
+        if ("vazio".equals(matriz[0][0]) && ganhou()==false){
             if (vezX == true){
                 matriz[0][0] = "X";
             } else {
                 matriz[0][0] = "O";
             }
+            btn1.setText(alternaJogador());
+            
         }
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
         // TODO add your handling code here:
-        if (usado[1]== false){
-            btn2.setText(alternaJogador());
+        if ("vazio".equals(matriz[0][1]) && ganhou()==false){
             if (vezX == true){
                 matriz[0][1] = "X";
             } else {
                 matriz[0][1] = "O";
             }
+            btn2.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
         // TODO add your handling code here:
-        if (usado[2]== false){
-            btn3.setText(alternaJogador());
+        if ("vazio".equals(matriz[0][2]) && ganhou()==false){
             if (vezX == true){
                 matriz[0][2] = "X";
             } else {
                 matriz[0][2] = "O";
             }
+            btn3.setText(alternaJogador());   
         }
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
         // TODO add your handling code here:
-        if (usado[3]== false){
-            btn4.setText(alternaJogador());
+        if ("vazio".equals(matriz[1][0]) && ganhou()==false){
             if (vezX == true){
                 matriz[1][0] = "X";
             } else {
                 matriz[1][0] = "O";
             }
+            btn4.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
         // TODO add your handling code here:
-        if (usado[4]== false){
-            btn5.setText(alternaJogador());
+        if ("vazio".equals(matriz[1][1]) && ganhou()==false){
             if (vezX == true){
                 matriz[1][1] = "X";
             } else {
                 matriz[1][1] = "O";
             }
+            btn5.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn5ActionPerformed
 
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
         // TODO add your handling code here:
-        if (usado[5]== false){
-            btn6.setText(alternaJogador());
+        if ("vazio".equals(matriz[1][2]) && ganhou()==false){
             if (vezX == true){
                 matriz[1][2] = "X";
             } else {
                 matriz[1][2] = "O";
             }
+            btn6.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn6ActionPerformed
 
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
         // TODO add your handling code here:
-        if (usado[6]== false){
-            btn7.setText(alternaJogador());
+        if ("vazio".equals(matriz[2][0]) && ganhou()==false){
             if (vezX == true){
                 matriz[2][0] = "X";
             } else {
                 matriz[2][0] = "O";
             }
+            btn7.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn7ActionPerformed
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
         // TODO add your handling code here:
-        if (usado[7]== false){
-            btn8.setText(alternaJogador());
+        if ("vazio".equals(matriz[2][1]) && ganhou()==false){
             if (vezX == true){
                 matriz[2][1] = "X";
             } else {
                 matriz[2][1] = "O";
             }
+            btn8.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn8ActionPerformed
 
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
         // TODO add your handling code here:
-        if (usado[8]== false){
-            btn9.setText(alternaJogador());
+        if ("vazio".equals(matriz[2][2]) && ganhou()==false){
             if (vezX == true){
                 matriz[2][2] = "X";
             } else {
                 matriz[2][2] = "O";
             }
+            btn9.setText(alternaJogador());
         }
     }//GEN-LAST:event_btn9ActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
