@@ -215,6 +215,7 @@ public final class jogodavelha extends javax.swing.JFrame {
             }
         });
 
+        vezTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         vezTxt.setText("Vez de X");
 
         jMenu5.setText("Arquivo");
@@ -298,7 +299,7 @@ public final class jogodavelha extends javax.swing.JFrame {
                         .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(vezTxt)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();

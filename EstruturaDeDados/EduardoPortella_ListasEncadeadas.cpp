@@ -39,7 +39,7 @@ void recuperaLista(int pos){
         cont++;
     }
     if (atual!=NULL){
-        cout << "Elemento " << atual -> dado << " na posicao " << pos << endl;
+        cout << "Elemento " << atual -> dado << " na posicao " << pos << endl; //alterem essa linha aq pfv
     } else{
         cout << "Posicao inexistente" << endl;
     }
