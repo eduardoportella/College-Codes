@@ -89,60 +89,48 @@ public class brasileirao2021 extends javax.swing.JFrame {
     
     public void organizar(){
         int tam = lista.getSize();
-        int pontosAux, vitoriasAux, empatesAux, derrotasAux, GPAux, GNAux, SGAux;
-        String nomeAux;
-        for (int i=0; i<tam; i++){
-            String nomeA = tableResultadoObjeto.getValueAt(i, 0).toString();
-            int pontosA = (int) tableResultadoObjeto.getValueAt(i, 1);
-            int vitoriasA = (int) tableResultadoObjeto.getValueAt(i, 2);
-            int empatesA = (int) tableResultadoObjeto.getValueAt(i, 3);
-            int derrotasA = (int) tableResultadoObjeto.getValueAt(i, 4);
-            int GPA=(int) tableResultadoObjeto.getValueAt(i, 5);
-            int GNA=(int) tableResultadoObjeto.getValueAt(i, 6);
-            int SGA=(int) tableResultadoObjeto.getValueAt(i, 7);
-            
-            for (int j=0; j<tam; j++){
-                String nomeB = tableResultadoObjeto.getValueAt(j, 0).toString();
-                int pontosB = (int) tableResultadoObjeto.getValueAt(j, 1);
-                int vitoriasB = (int) tableResultadoObjeto.getValueAt(j, 2);
-                int empatesB = (int) tableResultadoObjeto.getValueAt(j, 3);
-                int derrotasB = (int) tableResultadoObjeto.getValueAt(j, 4);
-                int GPB=(int) tableResultadoObjeto.getValueAt(j, 5);
-                int GNB=(int) tableResultadoObjeto.getValueAt(j, 6);
-                int SGB=(int) tableResultadoObjeto.getValueAt(j, 7);
-                if (i!=j){
-                    if (pontosA>pontosB){
-                        nomeAux = nomeA; pontosAux = pontosA; vitoriasAux = vitoriasA; empatesAux=empatesA;derrotasAux=derrotasA;
-                        GPAux = GPA; GNAux = GNA; SGAux= SGA;
-                        nomeA = nomeB; pontosA = pontosB; vitoriasA = vitoriasB; empatesA = empatesB; derrotasA = derrotasB;
-                        GPA= GPB; GNA = GNB; SGA = SGB;
-                        nomeB = nomeAux; pontosB = pontosAux; vitoriasB = vitoriasAux; empatesB = empatesAux; derrotasB = derrotasAux;
-                        GPB = GPAux; GNB = GNAux; SGB = SGAux;
+        int vetorA[] = new int[7];
+        int vetorB[] = new int[7];
+        int vetorAux[] = new int[7];
+        String nomeA, nomeB, nomeAux;
+        
+        for (int i=0;i<tam;i++){
+            nomeA = tableResultadoObjeto.getValueAt(i, 0).toString();
+            for (int j=0; j<7; j++){
+                vetorA[j] = (int) tableResultadoObjeto.getValueAt(i, j+1);
+            }
+            for (int k=0; k<tam; k++){
+                nomeB = tableResultadoObjeto.getValueAt(k, 0).toString();
+                    for (int l=0; l<7; l++){
+                        vetorB[l] = (int) tableResultadoObjeto.getValueAt(k, l+1);
                     }
-                    
+                    if (i!=k){
+                        if (vetorA[0] > vetorB[0]){
+                            vetorAux = vetorA;
+                            vetorA = vetorB;
+                            vetorB = vetorAux;
+                            nomeAux = nomeA;
+                            nomeA = nomeB;
+                            nomeB = nomeAux;
+                        }
+                    }
+                    for (int m=0; m<7; m++){
+                        tableResultadoObjeto.setValueAt(vetorB[m], k, m+1);   
+                    }
+                    tableResultadoObjeto.setValueAt(nomeB, k, 0);
                 }
-                tableResultadoObjeto.setValueAt(nomeB, j, 0);
-                tableResultadoObjeto.setValueAt(pontosB, j, 1);
-                tableResultadoObjeto.setValueAt(vitoriasB, j, 2);
-                tableResultadoObjeto.setValueAt(empatesB, j, 3);
-                tableResultadoObjeto.setValueAt(derrotasB, j, 4);
-                tableResultadoObjeto.setValueAt(GPB, j, 5);
-                tableResultadoObjeto.setValueAt(GNB, j, 6);
-                tableResultadoObjeto.setValueAt(SGB, j, 7);
-            } //for j
-            
+            for (int m=0; m<7; m++){
+                tableResultadoObjeto.setValueAt(vetorA[m], i, m+1);
+            }
             tableResultadoObjeto.setValueAt(nomeA, i, 0);
-            tableResultadoObjeto.setValueAt(pontosA, i, 1);
-            tableResultadoObjeto.setValueAt(vitoriasA, i, 2);
-            tableResultadoObjeto.setValueAt(empatesA, i, 3);
-            tableResultadoObjeto.setValueAt(derrotasA, i, 4);
-            tableResultadoObjeto.setValueAt(GPA, i, 5);
-            tableResultadoObjeto.setValueAt(GNA, i, 6);
-            tableResultadoObjeto.setValueAt(SGA, i, 7);
-        } //for i
+        }
     }
     
     public void jogar(){
+        int tam = lista.getSize();
+        int vetorA[] = new int[7];
+        int vetorB[] = new int[7];
+        String nomeA, nomeB;
         Random aleatorio = new Random();
         for (int i=0; i<lista.getSize(); i++){
             tableResultadoObjeto.addRow(new Object[]{
@@ -150,23 +138,17 @@ public class brasileirao2021 extends javax.swing.JFrame {
                     0, 0, 0
             });
         }
-        for (int i=0; i<lista.getSize(); i++){
-            int pontosA = (int) tableResultadoObjeto.getValueAt(i, 1);
-            int vitoriasA = (int) tableResultadoObjeto.getValueAt(i, 2);
-            int empatesA = (int) tableResultadoObjeto.getValueAt(i, 3);
-            int derrotasA = (int) tableResultadoObjeto.getValueAt(i, 4);
-            int GPA=(int) tableResultadoObjeto.getValueAt(i, 5);
-            int GNA=(int) tableResultadoObjeto.getValueAt(i, 6);
-            int SGA=(int) tableResultadoObjeto.getValueAt(i, 7);
+        
+        for (int i=0; i<tam; i++){
+            for (int j=0; j<7; j++){
+                vetorA[j] = (int) tableResultadoObjeto.getValueAt(i, j+1);
+            }
             
-            for (int j=0; j<lista.getSize(); j++){
-                int pontosB = (int) tableResultadoObjeto.getValueAt(j, 1);
-                int vitoriasB = (int) tableResultadoObjeto.getValueAt(j, 2);
-                int empatesB = (int) tableResultadoObjeto.getValueAt(j, 3);
-                int derrotasB = (int) tableResultadoObjeto.getValueAt(j, 4);
-                int GPB=(int) tableResultadoObjeto.getValueAt(j, 5);
-                int GNB=(int) tableResultadoObjeto.getValueAt(j, 6);
-                int SGB=(int) tableResultadoObjeto.getValueAt(j, 7);
+            for (int j=0; j<tam; j++){
+                for (int k=0; k<7; k++){
+                    vetorB[k] = (int) tableResultadoObjeto.getValueAt(j, k+1);
+                }
+                
                 if (i!=j){
                     int gol1 = aleatorio.nextInt(6);
                     int gol2 = aleatorio.nextInt(6);
@@ -174,43 +156,37 @@ public class brasileirao2021 extends javax.swing.JFrame {
                     lista.getElementAt(i), gol1,
                     "x", gol2, lista.getElementAt(j)
                     });
+                    
                     if(gol1>gol2){
-                        vitoriasA++;
-                        derrotasB++;
-                        pontosA+=3;
+                        vetorA[1]++;
+                        vetorB[3]++;
+                        vetorA[0]+=3;
                     } else if (gol1==gol2){
-                        empatesA++;
-                        empatesB++;
-                        pontosA++;
-                        pontosB++;
+                        vetorA[2]++;
+                        vetorA[0]++;
+                        vetorB[2]++;
+                        vetorB[0]++;
                     } else {
-                        derrotasA++;
-                        vitoriasB++;
-                        pontosB+=3;
+                        vetorA[3]++;
+                        vetorB[1]++;
+                        vetorB[0]+=3;
                     }
-                    GPA=GPA+gol1;
-                    GNA=GNA+gol2;
-                    GPB=GPB+gol2;
-                    GNB=GNB+gol1;
+                    vetorA[4]+=gol1;
+                    vetorA[5]+=gol2;
+                    vetorB[4]+=gol2;
+                    vetorB[5]+=gol1;
                     
                 }
-                SGB=GPB-GNB;
-                tableResultadoObjeto.setValueAt(pontosB, j, 1);
-                tableResultadoObjeto.setValueAt(vitoriasB, j, 2);
-                tableResultadoObjeto.setValueAt(empatesB, j, 3);
-                tableResultadoObjeto.setValueAt(derrotasB, j, 4);
-                tableResultadoObjeto.setValueAt(GPB, j, 5);
-                tableResultadoObjeto.setValueAt(GNB, j, 6);
-                tableResultadoObjeto.setValueAt(SGB, j, 7);
+                vetorB[6]=vetorB[4]-vetorB[5];
+                for (int m=0; m<7; m++){
+                        tableResultadoObjeto.setValueAt(vetorB[m], j, m+1);   
+                }
+                
             } //for j
-            
-            tableResultadoObjeto.setValueAt(pontosA, i, 1);
-            tableResultadoObjeto.setValueAt(vitoriasA, i, 2);
-            tableResultadoObjeto.setValueAt(empatesA, i, 3);
-            tableResultadoObjeto.setValueAt(derrotasA, i, 4);
-            tableResultadoObjeto.setValueAt(GPA, i, 5);
-            tableResultadoObjeto.setValueAt(GNA, i, 6);
-            tableResultadoObjeto.setValueAt(SGA, i, 7);
+            vetorA[6]=vetorA[4]-vetorA[5];
+            for (int m=0; m<7; m++){
+                tableResultadoObjeto.setValueAt(vetorA[m], i, m+1);   
+            }
         } //for i
         
         tableJogos.setModel(tableJogosObjeto);
