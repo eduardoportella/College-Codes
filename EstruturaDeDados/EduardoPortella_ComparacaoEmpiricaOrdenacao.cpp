@@ -24,17 +24,18 @@ int PARTITION(int p, int r){
     int piv = vetor[p];
     int i = p-1, j = r+1, temp;
     while (true){
+        do {
         j--;
-        while (vetor[j] > piv){
+        } while (vetor[j] > piv);
+        do {
             i++;
-        } while (vetor[i] < piv){
-            if (i<j){
-                temp = vetor[i];
-                vetor[i] = vetor[j];
-                vetor[j] = temp;
-            } else {
-                return j;
-            }
+        } while (vetor[i] < piv);
+        if (i<j){
+            temp = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = temp;
+        } else{
+            return j;
         }
     }
 }
@@ -90,7 +91,7 @@ void mergeSort(int lo, int hi){
         mergeSort(media+1, hi);
         L = lo;
         H = media+1;
-        for (int k=lo; k<hi; k++){
+        for (int k=lo; k<=hi; k++){
             if (L <= media && (H>hi || vetor[L] < vetor[H])){
                 scratch[k] = vetor[L];
                 L++;
@@ -98,7 +99,7 @@ void mergeSort(int lo, int hi){
                 scratch[k] = vetor[H];
                 H++;
             }
-        } for (int k=lo; k<hi; k++){
+        } for (int k=lo; k<=hi; k++){
             vetor[k] = scratch[k];
         }
     }
@@ -118,9 +119,9 @@ int main(){
     imprime();
     tempo1 = clock();
     // bubbleSort(); //FUNCIONANDO
-    quickSort(0, TAM-1);
+    // quickSort(0, TAM-1); //FUNCIONANDO
     // selecao(); // FUNCIONANDO
-    // mergeSort(0, TAM-1); //FUNCIONANDO
+    mergeSort(0, TAM-1); //FUNCIONANDO
     tempo2 = clock() - tempo1;
     cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
     imprime();
