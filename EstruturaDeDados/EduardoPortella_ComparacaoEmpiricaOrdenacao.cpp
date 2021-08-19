@@ -7,6 +7,8 @@ using namespace std;
 const int TAM = 10;
 
 int vetor[TAM];
+int tamheap;
+int scratch[TAM];
 
 clock_t tempo1;
 clock_t tempo2;
@@ -55,7 +57,7 @@ void bubbleSort(){
     sorted=0;
     while (!sorted && pass < TAM){
         sorted = 1;
-        for (i = 0; i < TAM-pass-1; i++)
+        for (i = 0; i <=TAM-pass-1; i++)
         {
             if (vetor[i] > vetor[i+1]){
                 temp = vetor[i];
@@ -76,15 +78,15 @@ void selecao(){
             if (vetor[corrente] > vetor[k]){
                 corrente = k;
             }
+        }
             temp = vetor[i];
             vetor[i] = vetor[corrente];
             vetor[corrente] = temp;
-        }
     }
 }
 
 void mergeSort(int lo, int hi){
-    int media, L, H, scratch[TAM];
+    int media, L, H;
     if (lo<hi){
         media = (lo+hi)/2;
         mergeSort(lo, media);
@@ -105,6 +107,68 @@ void mergeSort(int lo, int hi){
     }
 }
 
+void heapify(int i){
+    int l, r, maximo, temp;
+
+    l = 2*i + 1;
+    r = 2*i + 2;
+    if (l< tamheap && vetor[l] > vetor[i]){
+        maximo = l;
+    } else {
+        maximo = i;
+    } if (r < tamheap && vetor[r] > vetor[maximo]){
+        maximo = r;
+    } if (maximo != i){
+        temp = vetor[i];
+        vetor[i] = vetor[maximo];
+        vetor[maximo] = temp;
+        heapify(maximo);
+    }
+}
+
+void buildHeap(){
+    tamheap = TAM;
+    for (int j = (TAM/2)-1; j>=0; j--)
+    {
+        heapify(j);
+    }
+    
+}
+
+void heapSort(){
+    int k, temp;
+    buildHeap();
+    for ( k = TAM-1; k>=1; k--)
+    {
+        temp = vetor[0];
+        vetor[0] = vetor[k];
+        vetor[k] = temp;
+        tamheap--;
+        heapify(0);
+    }
+}
+
+void insertionSort(){
+    int x, i, temp;
+    bool achou;
+    for (int k=1; k<=TAM-1; k++){
+        x = vetor[k];
+        i = k-1;
+        achou = false;
+        while (!achou && i>=0){
+            if (vetor[i] > x){
+                //falta trocar
+                temp = vetor[i];
+                vetor[i] = vetor[i+1];
+                vetor[i+1] = temp;
+                i--;
+            } else {
+                achou = true;
+            }
+        }
+    }
+}
+
 void imprime(){
     int i;
     for ( i = 0; i < TAM; i++)
@@ -116,15 +180,56 @@ void imprime(){
 
 int main(){
     gera();
+    printf("VETOR DESORDENADO: \n");
     imprime();
-    tempo1 = clock();
+
+    // tempo1 = clock();
     // bubbleSort(); //FUNCIONANDO
+    // printf("bubbleSort: \n");
+    // imprime();
+    // tempo2 = clock() - tempo1;
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
+    // gera();
+    // tempo1 = clock();
     // quickSort(0, TAM-1); //FUNCIONANDO
-    // selecao(); // FUNCIONANDO
-    mergeSort(0, TAM-1); //FUNCIONANDO
+    // tempo2 = clock() - tempo1;
+    // printf("quickSort: \n");
+    // imprime();
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
+    // gera();
+    // tempo1 = clock();
+    // selecao(); //FUNCIONANDO
+    // tempo2 = clock() - tempo1;
+    // printf("Selecao: \n");
+    // imprime();
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
+    // gera();
+    // tempo1 = clock();
+    // mergeSort(0, TAM-1); //FUNCIONANDO
+    // tempo2 = clock() - tempo1;
+    // printf("mergeSort: \n");
+    // imprime();
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
+    gera();
+    tempo1 = clock();
+    heapSort(); //FUNCIONANDO
     tempo2 = clock() - tempo1;
-    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+    printf("heapSort: \n");
     imprime();
+    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
+    gera();
+    tempo1 = clock();
+    insertionSort(); //FUNCIONANDO
+    tempo2 = clock() - tempo1;
+    printf("InsertionSort: \n");
+    imprime();
+    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+
 
     system("pause");
     return 0;
