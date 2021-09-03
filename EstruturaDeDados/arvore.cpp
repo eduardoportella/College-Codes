@@ -37,6 +37,38 @@ void insereArvore(int valor){
     cout << "Elemento inserido!" << endl;
 }
 
+void insereArvoreSemRepetidos(int valor){
+    struct no *atual, *anterior, *novo;
+
+    novo = new(struct no);
+    novo -> dado = valor;
+    novo -> esq = NULL;
+    novo -> dir = NULL;
+
+    if (raiz == NULL){
+        raiz = novo;
+        return;
+    }
+
+    atual = raiz;
+    while (atual!=NULL){
+        if (valor == (atual -> dado)){
+            cout << "Esse elemento ja foi inserido, portanto nao foi possivel inseri-lo novamente" << endl;
+            return;
+        }
+        anterior = atual;
+        if (valor < atual -> dado)
+            atual = atual -> esq;
+        else
+            atual = atual -> dir;
+    }
+    if (valor < anterior -> dado)
+        anterior -> esq = novo;
+    else    
+        anterior -> dir = novo;
+    cout << "Elemento inserido!" << endl;
+}
+
 void em_ordem(struct no *atual){
     if (atual != NULL){
         em_ordem(atual -> esq);
@@ -67,6 +99,7 @@ int main(){
     insereArvore(20);
     insereArvore(4);
     insereArvore(7);
+    insereArvoreSemRepetidos(7);
     buscaArvore(7);
     buscaArvore(3);
     em_ordem(raiz);
