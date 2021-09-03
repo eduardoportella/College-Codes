@@ -7,7 +7,7 @@ public class Conexao
 	private Connection con;
 
 	private String driver = "org.postgresql.Driver";
-	private String dbURL = "jdbc:postgresql://localhost:5432/agenda";
+	private String dbURL = "jdbc:postgresql://localhost:5432/imobiliaria";
 	private String login = "postgres";
         private String password = "123654";
 

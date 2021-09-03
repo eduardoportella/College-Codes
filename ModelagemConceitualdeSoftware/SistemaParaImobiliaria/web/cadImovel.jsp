@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro - Imóvel</title>
+        <title>Imóvel - Cadastro</title>
     </head>
     <body>
         <h1>Cadastro de Imóveis</h1>
@@ -24,6 +24,14 @@
             Preço: <input type="text" name="preco" value="" /> <br>
             <input type="submit" value="Cadastrar"/>
         </form>
+        
+        <% 
+            String idImovel = request.getParameter("idImovel");
+            
+            if (idImovel != null)
+                out.println("Contato inserido com sucesso! ID: "+idImovel);
+            
+        %>
         
     </body>
 </html>

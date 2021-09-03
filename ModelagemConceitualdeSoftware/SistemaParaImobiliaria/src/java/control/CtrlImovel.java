@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.*;
 public class CtrlImovel extends HttpServlet {
     
-    DAOImovel dc;
+    private DAOImovel dc;
     
     @Override
     public void init(){
@@ -65,7 +65,7 @@ public class CtrlImovel extends HttpServlet {
         
         int idImovel = dc.inserir(i);
         
-        response.sendRedirect("cadImovel.jsp?id="+idImovel);
+        response.sendRedirect("cadImovel.jsp?idImovel="+idImovel);
         
         
     }
