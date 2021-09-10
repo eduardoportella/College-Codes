@@ -6,11 +6,16 @@
 package control;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Imovel;
+import model.DAOImovel;
+
 
 /**
  *
@@ -41,7 +46,9 @@ public class CtrlImovel extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         //Escrever codigo
-        String sendereco, stipo, spronto, squartos, sgaragem, stamanho, saluguel, spreco;
+        String ACAO, sendereco, stipo, spronto, squartos, sgaragem, stamanho, saluguel, spreco;
+        
+        ACAO = request.getParameter("ACAO");
         
         sendereco = request.getParameter("endereco");
         stipo = request.getParameter("tipo");
@@ -52,21 +59,65 @@ public class CtrlImovel extends HttpServlet {
         saluguel = request.getParameter("aluguel");
         spreco = request.getParameter("preco");
         
-        Imovel i = new Imovel();
+        if (ACAO.equalsIgnoreCase("INSERIR"))
+        {
         
-        i.setEndereco(sendereco);
-        i.setTipo(stipo);
-        i.setPronto(spronto);
-        i.setQuartos(squartos);
-        i.setGaragem(sgaragem);
-        i.setTamanho(stamanho);
-        i.setAluguel(saluguel);
-        i.setPreco(spreco);
-        
-        int idImovel = dc.inserir(i);
-        
-        response.sendRedirect("cadImovel.jsp?idImovel="+idImovel);
-        
+            Imovel i = new Imovel();
+
+            i.setEndereco(sendereco);
+            i.setTipo(stipo);
+            i.setPronto(spronto);
+            i.setQuartos(squartos);
+            i.setGaragem(sgaragem);
+            i.setTamanho(stamanho);
+            i.setAluguel(saluguel);
+            i.setPreco(spreco);
+
+
+            int idImovel = dc.inserir(i);
+
+            response.sendRedirect("cadImovel.jsp?idImovel="+idImovel);
+        } else
+        if (ACAO.equalsIgnoreCase("EXCLUIR"))
+        {
+            String idImovel = request.getParameter("idImovel");
+            
+            int idi_imovel = Integer.parseInt(idImovel);
+            
+            boolean r = dc.excluir(idi_imovel);
+            
+            if (r)
+                response.sendRedirect("listarImovel.jsp");
+            
+            
+            
+        } else
+        if (ACAO.equalsIgnoreCase("ALTERAR"))
+        {
+            
+            Imovel i = new Imovel();
+            
+            String scod_imovel = request.getParameter("cod_imovel");
+            
+            int scodi_imovel = Integer.parseInt(scod_imovel);
+            
+            i.setCod_imovel(scodi_imovel);
+            i.setEndereco(sendereco);
+            i.setTipo(stipo);
+            i.setPronto(spronto);
+            i.setQuartos(squartos);
+            i.setGaragem(sgaragem);
+            i.setTamanho(stamanho);
+            i.setAluguel(saluguel);
+            i.setPreco(spreco);
+            
+            boolean r = dc.alterar(i);
+            
+            if (r)
+                response.sendRedirect("listarImovel.jsp");
+            
+            
+        }
         
     }
 

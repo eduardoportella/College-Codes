@@ -16,7 +16,6 @@ void insereArvore(int valor){
     novo -> dado = valor;
     novo -> esq = NULL;
     novo -> dir = NULL;
-
     if (raiz == NULL){
         raiz = novo;
         return;

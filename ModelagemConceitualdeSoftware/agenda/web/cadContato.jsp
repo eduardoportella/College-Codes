@@ -18,6 +18,7 @@
             Nome:<input type="text" name="nome" value="" /><br>
             E-mail:<input type="text" name="email" value="" /><br>
             Telefone:<input type="text" name="telefone" value="" /><br>
+            <input type="hidden" name="ACAO" value="INSERIR" /><br>
             <input type="submit" value="Cadastrar"/>
         </form>
         

@@ -22,6 +22,8 @@
             Tamanho: <input type="text" name="tamanho" value="" /> <br>
             Aluguel: <input type="text" name="aluguel" value="" /> <br>        
             Preço: <input type="text" name="preco" value="" /> <br>
+            
+            <input type="hidden" name="ACAO" value="INSERIR" /><br>
             <input type="submit" value="Cadastrar"/>
         </form>
         

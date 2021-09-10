@@ -12,8 +12,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import util.Conexao;
 
 public class DAOContato {
@@ -36,14 +35,17 @@ public class DAOContato {
         return r;
     }
     
-    public ArrayList<Contato> pesquisar(String sql){
-        ArrayList<Contato> v = new ArrayList<>();
-        
-        ResultSet r = con.pesquisar(sql);
-        
+    public ArrayList<Contato> pesquisar(String sql)
+    {
+       
+            ArrayList<Contato> v = new ArrayList<>();
+            
+            ResultSet r = con.pesquisar(sql);
+       
         try {
             
-            while (r.next()){
+            while (r.next())
+            {
                 
                 int cod = r.getInt("cod_contato");
                 String nome = r.getString("nome");
@@ -56,8 +58,10 @@ public class DAOContato {
                 c.setNome(nome);
                 c.setEmail(email);
                 c.setTelefone(tel);
-
+                
                 v.add(c);
+
+                
             }
         } catch (SQLException ex) {
             System.out.println("ERRO LISTAGEM: "+ex);
@@ -65,5 +69,66 @@ public class DAOContato {
         }
         
         return v;
+        
     }
+    
+    public boolean excluir(int id)
+    {
+        int r=0;
+        
+        r = con.excluir("DELETE FROM contato WHERE cod_contato = "+id);
+        
+        if (r <= 0)
+            return false;
+        
+        return true;
+    }
+    
+    public Contato getById(String id)
+    {
+       
+            
+        ResultSet r = con.pesquisar("SELECT * FROM contato WHERE cod_contato = "+id);
+       
+        try {
+            
+            if (r.next())
+            {
+                
+                int cod = r.getInt("cod_contato");
+                String nome = r.getString("nome");
+                String email = r.getString("email");
+                String tel = r.getString("telefone");
+                
+                Contato c = new Contato();
+                
+                c.setCod_contato(cod);
+                c.setNome(nome);
+                c.setEmail(email);
+                c.setTelefone(tel);
+                
+               return c;
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println("ERRO LISTAGEM: "+ex);
+            
+        }
+        
+        return null;
+        
+    }
+    
+    public boolean alterar(Contato c)
+    {
+        int r;
+        
+        r = con.atualizar("UPDATE contato SET nome='"+c.getNome()+"', email='"+c.getEmail()+"', telefone='"+c.getTelefone()+"' WHERE cod_contato = "+c.getCod_contato());
+        
+        if (r <= 0)
+            return false;
+        
+        return true;
+    }
+    
 }
