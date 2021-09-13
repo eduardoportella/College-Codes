@@ -16,10 +16,6 @@
     <%
         String idImovel = request.getParameter("idImovel");
             
-        if (idImovel != null){
-            out.println("Imóvel alterado com sucesso! ID: "+idImovel);
-        }
-            
         Imovel i = d.getById(idImovel);
     
     %>
@@ -33,7 +29,7 @@
             Garagem: <input type="text" name="garagem" value="<%=i.getGaragem()%>" /> <br>
             Tamanho: <input type="text" name="tamanho" value="<%=i.getTamanho()%>" /> <br>
             Aluguel: <input type="text" name="aluguel" value="<%=i.getAluguel()%>" /> <br>        
-            Preço: <input type="text" name="preco" value=<%=i.getPreco()%> /> <br>
+            Preço: <input type="text" name="preco" value="<%=i.getPreco()%>" /> <br>
 
             <input type="hidden" name="ACAO" value="ALTERAR" /><br>
             <input type="hidden" name="cod_imovel" value="<%=i.getCod_imovel()%>" /><br>

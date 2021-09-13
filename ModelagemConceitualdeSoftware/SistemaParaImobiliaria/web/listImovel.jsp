@@ -40,7 +40,7 @@
                 <tr>
                     <td><a href="/SistemaParaImobiliaria/CtrlImovel?ACAO=EXCLUIR&idImovel=<%=i.getCod_imovel()%>">Excluir</td>
 
-                    <td><a href="editarImovel.jsp?idImovel=<%=i.getCod_imovel()%>">Editar</a></td>
+                    <td><a href="AltImovel.jsp?idImovel=<%=i.getCod_imovel()%>">Editar</a></td>
                     <td><%=i.getEndereco() %></td>
                     <td><%=i.getTipo()%></td>
                     <td><%=i.getPronto()%></td>

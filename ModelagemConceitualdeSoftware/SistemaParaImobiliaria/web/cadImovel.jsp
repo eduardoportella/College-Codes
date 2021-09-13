@@ -31,7 +31,7 @@
             String idImovel = request.getParameter("idImovel");
             
             if (idImovel != null)
-                out.println("Contato inserido com sucesso! ID: "+idImovel);
+                out.println("Imóvel inserido com sucesso! ID: "+idImovel);
             
         %>
         

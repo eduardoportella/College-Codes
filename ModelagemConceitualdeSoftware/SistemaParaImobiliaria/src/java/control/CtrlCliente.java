@@ -13,24 +13,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Imovel;
-import model.DAOImovel;
-
+import model.Cliente;
+import model.DAOCliente;
 
 /**
  *
- * @author eport
+ * @author Admin Smart
  */
 
 import model.*;
-public class CtrlImovel extends HttpServlet {
-    private DAOImovel dc;
+public class CtrlCliente extends HttpServlet {
+    private DAOCliente dc;
     
     @Override
-    public void init(){
-        dc = new DAOImovel();
+    public void init()
+    {
+        dc = new DAOCliente();
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,49 +44,42 @@ public class CtrlImovel extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String ACAO, sendereco, stipo, spronto, squartos, sgaragem, stamanho, saluguel, spreco;
+        String ACAO, snome, semail, stelefone, sendereco;
         
         ACAO = request.getParameter("ACAO");
         
+        snome = request.getParameter("nome");
+        semail = request.getParameter("email");
+        stelefone = request.getParameter("telefone");
         sendereco = request.getParameter("endereco");
-        stipo = request.getParameter("tipo");
-        spronto = request.getParameter("pronto");
-        squartos = request.getParameter("quartos");
-        sgaragem = request.getParameter("garagem");
-        stamanho = request.getParameter("tamanho");
-        saluguel = request.getParameter("aluguel");
-        spreco = request.getParameter("preco");
         
         if (ACAO.equalsIgnoreCase("INSERIR"))
         {
         
-            Imovel i = new Imovel();
+            Cliente c = new Cliente();
 
-            i.setEndereco(sendereco);
-            i.setTipo(stipo);
-            i.setPronto(spronto);
-            i.setQuartos(squartos);
-            i.setGaragem(sgaragem);
-            i.setTamanho(stamanho);
-            i.setAluguel(saluguel);
-            i.setPreco(spreco);
+            c.setNome(snome);
+            c.setEmail(semail);
+            c.setTelefone(stelefone);
+            c.setEndereco(sendereco);
 
 
-            int idImovel = dc.inserir(i);
+            int idCliente = dc.inserir(c);
 
-            response.sendRedirect("CadImovel.jsp?idImovel="+idImovel);
+            response.sendRedirect("CadCliente.jsp?idCliente="+idCliente);
         } else
         if (ACAO.equalsIgnoreCase("EXCLUIR"))
         {
-            String idImovel = request.getParameter("idImovel");
+            String idCliente = request.getParameter("idCliente");
             
-            int idi_imovel = Integer.parseInt(idImovel);
+            int idi_cliente = Integer.parseInt(idCliente);
             
-            boolean r = dc.excluir(idi_imovel);
+            boolean r = dc.excluir(idi_cliente);
             
             if (r)
-                response.sendRedirect("ListImovel.jsp");
+                response.sendRedirect("ListCliente.jsp");
 
+            
             
             
             
@@ -94,33 +87,28 @@ public class CtrlImovel extends HttpServlet {
         if (ACAO.equalsIgnoreCase("ALTERAR"))
         {
             
-            Imovel i = new Imovel();
+            Cliente c = new Cliente();
             
-            String scod_imovel = request.getParameter("cod_imovel");
+            String scod_cliente = request.getParameter("cod_cliente");
             
-            int scodi_imovel = Integer.parseInt(scod_imovel);
+            int scodi_cliente = Integer.parseInt(scod_cliente);
             
-            i.setCod_imovel(scodi_imovel);
-            i.setEndereco(sendereco);
-            i.setTipo(stipo);
-            i.setPronto(spronto);
-            i.setQuartos(squartos);
-            i.setGaragem(sgaragem);
-            i.setTamanho(stamanho);
-            i.setAluguel(saluguel);
-            i.setPreco(spreco);
+            c.setCod_cliente(scodi_cliente);
+            c.setNome(snome);
+            c.setEmail(semail);
+            c.setTelefone(stelefone);
+            c.setEndereco(sendereco);
             
-            boolean r = dc.alterar(i);
+            boolean r = dc.alterar(c);
             
             if (r)
-                response.sendRedirect("ListImovel.jsp");
-            
-            
+                response.sendRedirect("ListCliente.jsp");
+ 
             
         }
-        
+ 
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -159,5 +147,4 @@ public class CtrlImovel extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
