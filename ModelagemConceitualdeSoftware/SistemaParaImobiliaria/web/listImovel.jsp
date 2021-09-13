@@ -1,23 +1,21 @@
 <%-- 
-    Document   : listImovel
-    Created on : 2 de set. de 2021, 21:36:27
-    Author     : eport
+    Document   : listarContato
+    Created on : Sep 7, 2021, 10:44:31 AM
+    Author     : padil
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="model.*"%>
-
+<%@page import="java.util.ArrayList" %>
+<%@page import="model.*" %>
 <jsp:useBean class="model.DAOImovel" id="d" scope="page"></jsp:useBean>
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Imóvel - Listagem</title>
+        <title>Lista de Imoveis</title>
     </head>
     <body>
-        <h1>Imóveis</h1>
+      <h1>Imóveis</h1>
         <table border="1">
             <thead>
                 <tr>
@@ -40,8 +38,9 @@
                 {
             %>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td><a href="/SistemaParaImobiliaria/CtrlImovel?ACAO=EXCLUIR&idImovel=<%=i.getCod_imovel()%>">Excluir</td>
+
+                    <td><a href="editarImovel.jsp?idImovel=<%=i.getCod_imovel()%>">Editar</a></td>
                     <td><%=i.getEndereco() %></td>
                     <td><%=i.getTipo()%></td>
                     <td><%=i.getPronto()%></td>
