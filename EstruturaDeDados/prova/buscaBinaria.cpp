@@ -45,8 +45,18 @@ void buscaArvore(int valor){
             cout << "Elemento " << atual -> dado << " encontrado!" << endl;
             FilhoDireito = atual -> dir;
             FilhoEsquerdo = atual -> esq;
-            cout << "Filho esquerdo: " << FilhoEsquerdo -> dado << endl;
-            cout << "Filho direito: " << FilhoDireito -> dado << endl;
+            if (FilhoDireito -> dado == NULL){
+                cout << "Filho direito não encontrado" << endl;
+            } else {
+                cout << "Filho direito: " << FilhoDireito -> dado << endl;
+            }
+            
+            if (FilhoEsquerdo -> dado == NULL){
+                cout << "Filho esquerdo não encontrado" << endl;
+            } else {
+                cout << "Filho esquerdo: " << FilhoEsquerdo -> dado << endl;
+            }
+            
             return;
         }
         if (valor < atual -> dado)
@@ -58,11 +68,13 @@ void buscaArvore(int valor){
 }
 
 int main(){
-    insereArvore(5);
-    insereArvore(20);
+    insereArvore(8);
+    insereArvore(3);
+    insereArvore(10);
+    insereArvore(15);
     insereArvore(7);
-    insereArvore(4);
-    buscaArvore(5);
+    insereArvore(2);
+    buscaArvore(8);
 
     return 0;
 }
