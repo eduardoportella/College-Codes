@@ -37,7 +37,7 @@ void insereArvore(int valor){
 }
 
 void buscaArvore(int valor){
-    struct no *atual, *FilhoEsquerdo, *FilhoDireito;
+    struct no *atual, *FilhoDireito, *FilhoEsquerdo;
 
     atual = raiz;
     while (atual != NULL){
@@ -46,13 +46,13 @@ void buscaArvore(int valor){
             FilhoDireito = atual -> dir;
             FilhoEsquerdo = atual -> esq;
             if (FilhoDireito -> dado == NULL){
-                cout << "Filho direito não encontrado" << endl;
+                cout << "Filho direito não existe" << endl;
             } else {
                 cout << "Filho direito: " << FilhoDireito -> dado << endl;
             }
-            
+
             if (FilhoEsquerdo -> dado == NULL){
-                cout << "Filho esquerdo não encontrado" << endl;
+                cout << "Filho esquerdo não existe" << endl;
             } else {
                 cout << "Filho esquerdo: " << FilhoEsquerdo -> dado << endl;
             }

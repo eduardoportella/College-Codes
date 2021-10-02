@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int TAM = 10;
+const int TAM = 200;
 
 int vetor[TAM];
 int tamheap;
@@ -183,20 +183,20 @@ int main(){
     printf("VETOR DESORDENADO: \n");
     imprime();
 
-    // tempo1 = clock();
-    // bubbleSort(); //FUNCIONANDO
-    // printf("bubbleSort: \n");
-    // imprime();
-    // tempo2 = clock() - tempo1;
-    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+    tempo1 = clock();
+    bubbleSort(); //FUNCIONANDO
+    printf("bubbleSort: \n");
+    imprime();
+    tempo2 = clock() - tempo1;
+    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
 
-    // gera();
-    // tempo1 = clock();
-    // quickSort(0, TAM-1); //FUNCIONANDO
-    // tempo2 = clock() - tempo1;
-    // printf("quickSort: \n");
-    // imprime();
-    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+    gera();
+    tempo1 = clock();
+    quickSort(0, TAM-1); //FUNCIONANDO
+    tempo2 = clock() - tempo1;
+    printf("quickSort: \n");
+    imprime();
+    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
 
     // gera();
     // tempo1 = clock();
@@ -214,21 +214,21 @@ int main(){
     // imprime();
     // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
 
-    gera();
-    tempo1 = clock();
-    heapSort(); //FUNCIONANDO
-    tempo2 = clock() - tempo1;
-    printf("heapSort: \n");
-    imprime();
-    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+    // gera();
+    // tempo1 = clock();
+    // heapSort(); //FUNCIONANDO
+    // tempo2 = clock() - tempo1;
+    // printf("heapSort: \n");
+    // imprime();
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
 
-    gera();
-    tempo1 = clock();
-    insertionSort(); //FUNCIONANDO
-    tempo2 = clock() - tempo1;
-    printf("InsertionSort: \n");
-    imprime();
-    cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
+    // gera();
+    // tempo1 = clock();
+    // insertionSort(); //FUNCIONANDO
+    // tempo2 = clock() - tempo1;
+    // printf("InsertionSort: \n");
+    // imprime();
+    // cout << "Tempo: " << (float) tempo2/CLOCKS_PER_SEC << " s" << endl;
 
 
     system("pause");
