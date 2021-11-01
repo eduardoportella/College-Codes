@@ -8,6 +8,14 @@ package pessoas;
  *
  * @author eport
  */
-public class Empresa {
-    
+public class Empresa{
+    private int numeroDeFuncionarios;
+
+    public int getNumeroDeFuncionarios() {
+        return numeroDeFuncionarios;
+    }
+
+    public void setNumeroDeFuncionarios(int numeroDeFuncionarios) {
+        this.numeroDeFuncionarios = numeroDeFuncionarios;
+    }
 }

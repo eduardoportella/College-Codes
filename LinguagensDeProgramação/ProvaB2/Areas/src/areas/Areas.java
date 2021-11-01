@@ -21,14 +21,14 @@ public class Areas {
         int quant = scanner.nextInt();
         Double res[] = new Double[quant+1];
         Formato f[] = new Formato[quant+1];
-        for(int i=1; i<=quant; i++){
+        for(int i=0; i<quant; i++){
             f[i] = new Formato();
-            System.out.println("\nDados do formato " + i);
+            System.out.println("\nDados do formato " + (i+1));
             res[i] = f[i].area();
         }
         
         System.out.println("\nÁrea dos Formatos: ");
-        for(int i = 1; i<=quant; i++){
+        for(int i = 0; i<quant; i++){
             System.out.println(String.format("%.2f" , res[i]));
         }
         

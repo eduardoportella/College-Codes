@@ -8,6 +8,14 @@ package pessoas;
  *
  * @author eport
  */
-public class Individual {
-    
+public class Individual{
+    private Double gastosComSaude;
+
+    public Double getGastosComSaude() {
+        return gastosComSaude;
+    }
+
+    public void setGastosComSaude(Double gastosComSaude) {
+        this.gastosComSaude = gastosComSaude;
+    }
 }
